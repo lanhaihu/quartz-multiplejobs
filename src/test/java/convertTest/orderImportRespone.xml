@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<orderImportResponse version="0.1">
+    <responseCode/>
+    <processedOrders>2</processedOrders>
+    <orders>
+        <order sequence="1">
+            <clientReferenceNumber>45989283488</clientReferenceNumber>
+            <importStatus>DRAFT</importStatus>
+            <responseCodes>
+                <responseCode>
+                    <code>1018</code>
+                </responseCode>
+                <responseCode>
+                    <code>1007</code>
+                </responseCode>
+                <responseCode>
+                    <code>1005</code>
+                </responseCode>
+                <responseCode>
+                    <code>1014</code>
+                </responseCode>
+            </responseCodes>
+            <orderNumber>001000071</orderNumber>
+        </order>
+        <order sequence="2">
+            <clientReferenceNumber>45989283489</clientReferenceNumber>
+            <importStatus>NOT IMPORTED</importStatus>
+            <responseCodes>
+                <responseCode>
+                    <code>1022</code>
+                </responseCode>
+            </responseCodes>
+            <orderNumber/>
+        </order>
+        <order sequence="3">
+            <clientReferenceNumber>4598928355</clientReferenceNumber>
+            <importStatus>INBOX</importStatus>
+            <responseCodes></responseCodes>
+            <orderNumber/>
+        </order>
+        <order sequence="4">
+            <clientReferenceNumber>45989283688</clientReferenceNumber>
+            <importStatus>NOT IMPORTED</importStatus>
+            <responseCodes>
+                <responseCode>
+                    <code>1120</code>
+                </responseCode>
+            </responseCodes>
+            <orderNumber/>
+        </order>
+    </orders>
+</orderImportResponse>
