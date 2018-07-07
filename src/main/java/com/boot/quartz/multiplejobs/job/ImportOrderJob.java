@@ -1,6 +1,9 @@
 package com.boot.quartz.multiplejobs.job;
 
 import java.util.List;
+
+import com.boot.quartz.multiplejobs.importorder.service.ImportOrderService;
+import com.boot.util.ConstantInfoUtil;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +12,18 @@ import org.springframework.stereotype.Service;
 import com.boot.quartz.multiplejobs.importorder.service.IImportOrderService;
 import com.boot.quartz.multiplejobs.bean.dr_estimate_costs;
 @Service
-public class ExampleJob1 extends QuartzJobBean {
+public class ImportOrderJob extends QuartzJobBean {
+
+    //@Autowired
+    //private IImportOrderService importOrderService;
 
     @Autowired
-    private IImportOrderService importOrderService;
+    private ImportOrderService importOrderService;
 
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("EXECUTE JOB 1");
+        /*System.out.println("EXECUTE JOB 1");
+        String url = ConstantInfoUtil.getPassWord();
+        System.out.println(url);
         List<dr_estimate_costs> empList=importOrderService.queryEmpAll();
         for(dr_estimate_costs emp : empList) {
             System.out.println(emp.getCosts_estimate_id());
@@ -27,6 +35,8 @@ public class ExampleJob1 extends QuartzJobBean {
             System.out.println(emp.getCosts_estimate_id());
             System.out.println(emp.getReckon_unit_id());
         }
-        importOrderService.updateByIds(8,2);
+        importOrderService.updateByIds(8,2);*/
+
+        importOrderService.startImportCargoList();
     }
 }
