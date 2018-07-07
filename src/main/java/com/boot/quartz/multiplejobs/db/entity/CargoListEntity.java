@@ -42,7 +42,7 @@ public class CargoListEntity extends BaseEntity {
     String productCode; // 物品编码
     String unitType; // 计量单位
     int volume; // 体积
-    int unitWidth; // 单品重量
+    int unitWeight; // 单品重量
     int quantity; // 数量
 
     public String getErpNumber() {
@@ -341,12 +341,12 @@ public class CargoListEntity extends BaseEntity {
         this.volume = volume;
     }
 
-    public int getUnitWidth() {
-        return unitWidth;
+    public int getUnitWeight() {
+        return unitWeight;
     }
 
-    public void setUnitWidth(int unitWidth) {
-        this.unitWidth = unitWidth;
+    public void setUnitWeight(int unitWeight) {
+        this.unitWeight = unitWeight;
     }
 
     public int getQuantity() {

@@ -15,14 +15,14 @@ public class shipFromEntity implements Serializable {
     private String companyName;
     private String postcode;
     private String  address;
-    private boolean loading;
+    private String loading;
     private contactEntity contactEntityEntiy;
     private String locationRemarks;
 
     public shipFromEntity() {
     }
 
-    public shipFromEntity(String companyName, String postcode, String address, boolean loading, contactEntity contactEntityEntiy, String locationRemarks) {
+    public shipFromEntity(String companyName, String postcode, String address, String loading, contactEntity contactEntityEntiy, String locationRemarks) {
         this.companyName = companyName;
         this.postcode = postcode;
         this.address = address;
@@ -59,11 +59,11 @@ public class shipFromEntity implements Serializable {
     }
 
     @XmlElement(name = "loading")
-    public boolean isLoading() {
+    public String isLoading() {
         return loading;
     }
 
-    public void setLoading(boolean loading) {
+    public void setLoading(String loading) {
         this.loading = loading;
     }
 
