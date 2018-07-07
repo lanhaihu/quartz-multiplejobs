@@ -19,6 +19,7 @@ import java.text.ParseException;
 @Service
 public class SchedulerExampleJob2Service {
 
+
     @Autowired
     SchedulerFactoryBean schedulerFactoryBean;
 

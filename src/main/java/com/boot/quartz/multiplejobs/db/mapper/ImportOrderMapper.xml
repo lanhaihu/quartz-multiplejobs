@@ -115,4 +115,96 @@
         </if>
     </update>
 
+
+    <resultMap id="deliverymap" type="com.boot.quartz.multiplejobs.db.entity.DeliverListEntiy">
+        <id property="id" column="id"/>
+        <result property="erpNumber" column="erpNumber"/>
+        <result property="branch" column="branch"/>
+        <result property="clientReferenceNumber" column="clientReferenceNumber"/>
+        <result property="autoProcessMode" column="autoProcessMode"/>
+        <result property="vendorcode" column="vendorcode"/>
+        <result property="shipFrom_companyName" column="shipFrom_companyName"/>
+        <result property="shipFrom_province" column="shipFrom_province"/>
+        <result property="shipFrom_town" column="shipFrom_town"/>
+        <result property="shipFrom_county" column="shipFrom_county"/>
+        <result property="shipFrom_address" column="shipFrom_address"/>
+        <result property="shipFrom_loading" column="shipFrom_loading"/>
+        <result property="shipFrom_contact_name" column="shipFrom_contact_name"/>
+        <result property="shipFrom_contact_phone" column="shipFrom_contact_phone"/>
+        <result property="shipFrom_contact_phoneAreaCode" column="shipFrom_contact_phoneAreaCode"/>
+        <result property="shipFrom_contact_mobile" column="shipFrom_contact_mobile"/>
+        <result property="shipFrom_locationRemarks" column="shipFrom_locationRemarks"/>
+        <result property="shipTo_companyName" column="shipTo_companyName"/>
+        <result property="shipTo_province" column="shipTo_province"/>
+        <result property="shipTo_town" column="shipTo_town"/>
+        <result property="shipTo_county" column="shipTo_county"/>
+        <result property="shipTo_address" column="shipTo_address"/>
+        <result property="shipTo_loading" column="shipTo_loading"/>
+        <result property="shipTo_contact_name" column="shipTo_contact_name"/>
+        <result property="shipTo_contact_phone" column="shipTo_contact_phone"/>
+        <result property="shipTo_contact_phoneAreaCode" column="shipTo_contact_phoneAreaCode"/>
+        <result property="shipTo_contact_mobile" column="shipTo_contact_mobile"/>
+        <result property="shipTo_locationRemarks" column="shipTo_locationRemarks"/>
+        <result property="pickupDate" column="pickupDate"/>
+        <result property="pickupTimeFrom" column="pickupTimeFrom"/>
+        <result property="pickupTimeTo" column="pickupTimeTo"/>
+        <result property="deliveryDate" column="deliveryDate"/>
+        <result property="deliveryTimeFrom" column="deliveryTimeFrom"/>
+        <result property="deliveryTimeTo" column="deliveryTimeTo"/>
+        <result property="productName" column="productName"/>
+        <result property="productCode" column="productCode"/>
+        <result property="unitType" column="unitType"/>
+        <result property="volume" column="volume"/>
+        <result property="unitWidth" column="unitWidth"/>
+        <result property="quantity" column="quantity"/>
+    </resultMap>
+    <select id="findDelistByOutputStatus" resultMap="deliverymap">
+        select A.ID
+        ,A.BILLCODE erpNumber -- ERP/WMS单据编号
+        ,A.org_code branch -- 地区
+        ,A.DELIVERY_BILLCODE clientReferenceNumber -- 外部查询单号
+        ,1 autoProcessMode -- 订单处理模式
+        ,A.CARRIER_ID vendorcode -- 承运商在oTMS系统中的公司代码
+        ,A.SHIPPER shipFrom_companyName --发货方
+        ,A.SHPR_PROVINCE shipFrom_province -- 发货省份
+        ,A.SHPR_TOWN shipFrom_town -- 发货城市
+        ,A.SHPR_COUNTY shipFrom_county -- 发货区县
+        ,A.SHPR_ADD shipFrom_address -- 详细地址
+        ,'false' shipFrom_loading -- 装货标记
+        ,A.SHPR_CONTACTS shipFrom_contact_name -- 发货方联系人
+        ,A.SHPR_PHONE shipFrom_contact_phone -- 发货方座机
+        ,A.SHPR_AREA_CODE shipFrom_contact_phoneAreaCode -- 发货方座机区号
+        ,A.SHPR_MOBILE shipFrom_contact_mobile -- 发货方手机
+        ,A.REMARKS shipFrom_locationRemarks -- 发货点备注
+        ,A.CONSIGNEE shipTo_companyName -- 收货方
+        ,A.CNEE_PROVINCE shipTo_province -- 收货省份
+        ,A.CNEE_TOWN shipTo_town -- 收货城市
+        ,A.CNEE_COUNTY shipTo_county -- 收货区县
+        ,A.CNEE_ADD shipTo_address -- 收货详细地址
+        ,'false' shipTo_loading  -- 装货标记
+        ,A.CNEE_CONTACTS shipTo_contact_name -- 收货方联系人
+        ,A.CNEE_PHONE shipTo_contact_phone -- 收货方座机
+        ,A.CNEE_AREA_CODE shipTo_contact_phoneAreaCode -- 收货方座机区号
+        ,A.CNEE_MOBILE shipTo_contact_mobile -- 收货方手机
+        ,'' shipTo_locationRemarks -- 收货点备注
+        ,A.SHIPMENT_DATE pickupDate -- 计划提货日期
+        ,A.SHIPMENT_TIMEA pickupTimeFrom -- 提货开始时间
+        ,A.SHIPMENT_TIMEB pickupTimeTo -- 提货结束时间
+        ,A.DELIVERY_DATE  deliveryDate -- 计划送达日期
+        ,A.DELIVERY_TIMEA deliveryTimeFrom -- 送达开始时间
+        ,A.DELIVERY_TIMEB deliveryTimeTo --  送达结束时间
+        ,B.MATERIAL_NAME productName -- 物品名称
+        ,B.MATERIAL_CODE productCode -- 物品编码
+        ,B.UNIT unitType -- 计量单位
+        ,B.VOLUME -- 体积
+        ,B.WEIGHT unitWidth -- 单品重量
+        ,B.QUANTITY quantity -- 数量
+        from DELIVERY_ORDER A, DELIVERY_ORDER_B B
+        where A.ID = B.CARGO_ID
+        and B.OUTPUT_STATUS =#{status}
+        and A.output_status =#{status}
+    </select>
 </mapper>
+
+
+

@@ -1,6 +1,7 @@
 package com.boot.quartz.multiplejobs.db.mapper;
 
 import com.boot.quartz.multiplejobs.db.entity.CargoListEntity;
+import com.boot.quartz.multiplejobs.db.entity.DeliverListEntiy;
 import com.boot.quartz.multiplejobs.db.entity.TestEntity;
 
 import java.util.ArrayList;
@@ -15,4 +16,6 @@ public interface ImportOrderMapper {
     int updateCargoListByIds(ArrayList<String> ids);
 
     int updateCargoListBByCarGoIds(ArrayList<String> ids);
+
+    List<DeliverListEntiy>findDelistByOutputStatus(String status);
 }

@@ -1,45 +1,61 @@
 package com.boot.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Created by zhaos on 2018/7/7.
  */
+
 public class ConstantInfoUtil {
-    private static String userName;
-    private static String passWord;
-    private static String version;
-    private static String url;
+
+
+    private static String USERNAME;
+
+
+    private static String USERPASSWORD;
+
+
+    private static String REQUESTVERSION;
+
+
+    private static String REQUESTURL;
 
     public static String getUser(){
-        return userName;
+        return USERNAME;
     }
 
     public static String getPassWord(){
-        return passWord;
-    }
-
-    public static void setUserName(String user){
-        userName = user;
-    }
-
-    public static void setPassWord(String pwd){
-        passWord = pwd;
+        return USERPASSWORD;
     }
 
     public static String getVersion(){
-        return version;
+        return REQUESTVERSION;
     }
 
-    public static void setVersion(String v){
-        version = v;
+    public static String getUrl() { return REQUESTURL;}
+
+
+    public static void setUSERNAME(String uSERNAME) {
+        USERNAME = uSERNAME;
     }
 
-    public static String getUrl() {
-        return url;
+
+    public static void setUSERPASSWORD(String uSERPASSWORD) {
+        USERPASSWORD = uSERPASSWORD;
     }
 
-    public static void setUrl(String url) {
-        ConstantInfoUtil.url = url;
+
+    public static void setREQUESTVERSION(String rEQUESTVERSION) {
+        REQUESTVERSION = REQUESTVERSION;
+    }
+
+
+    public static void setREQUESTURL(String rEQUESTURL) {
+        REQUESTURL = REQUESTURL;
     }
 }

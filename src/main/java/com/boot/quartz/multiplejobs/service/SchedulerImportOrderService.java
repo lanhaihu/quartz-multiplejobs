@@ -2,7 +2,8 @@ package com.boot.quartz.multiplejobs.service;
 
 import com.boot.quartz.multiplejobs.config.SchedulerJobFactory;
 import com.boot.quartz.multiplejobs.config.SchedulerTriggerFactory;
-import com.boot.quartz.multiplejobs.job.ExampleJob1;
+import com.boot.quartz.multiplejobs.job.ImportOrderJob;
+import com.boot.util.ConstantInfoUtil;
 import org.quartz.JobDataMap;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,24 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.text.ParseException;
-import java.util.Date;
 
 @Service
-public class SchedulerExampleJob1Service {
+public class SchedulerImportOrderService {
+
+    @Value("${triggers.importOrder}")
+    String cron;
+
+    @Value("${request.user.name}")
+    String userName;
+
+    @Value("${request.user.password}")
+    String userPassword;
+
+    @Value("${request.url}")
+    String requestUrl;
+
+    @Value("${request.version}")
+    String requestVersion;
 
     @Autowired
     SchedulerFactoryBean schedulerFactoryBean;
@@ -31,8 +46,13 @@ public class SchedulerExampleJob1Service {
 
     @PostConstruct
     public void setupJobs() throws ParseException, SchedulerException {
-        //@Value("${triggers.cron1}") String cron
-        scheduleJob(ExampleJob1.class, null,"0/5 * * * * ?" , "ExampleJob1", "trigger1");
+
+        ConstantInfoUtil.setREQUESTURL(requestUrl);
+        ConstantInfoUtil.setREQUESTVERSION(requestVersion);
+        ConstantInfoUtil.setUSERNAME(userName);
+        ConstantInfoUtil.setUSERPASSWORD(userPassword);
+
+        scheduleJob(ImportOrderJob.class, null,cron , "ImportOrderJob", "ImportOrderJobTrigger");
         //scheduleJob(ExampleJob1.class, null,cron , "ExampleJob1", "trigger1");
     }
 
