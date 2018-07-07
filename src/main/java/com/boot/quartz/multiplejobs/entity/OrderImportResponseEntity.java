@@ -18,7 +18,7 @@ public class OrderImportResponseEntity implements Serializable{
 
     private String version;
 
-    @XmlElement(name = "responseCode")
+
     private String responseCode;
 
     private String processedOrders;
@@ -60,6 +60,7 @@ public class OrderImportResponseEntity implements Serializable{
         this.orders = orders;
     }
 
+    @XmlElement(name = "responseCode")
     public String getResponseCode() {
         return responseCode;
     }
