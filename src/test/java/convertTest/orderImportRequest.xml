@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<orderImportRequest version="0.1" login="ZAbR9ngZ" password="ONVdqpzx16As7ZeR">
+    <orders>
+        <order sequence="1">
+            <erpNumber>002041230005</erpNumber>
+            <branch>西安</branch>
+            <clientReferenceNumber></clientReferenceNumber>
+            <autoProcessMode>1</autoProcessMode>
+            <vendorcode>966136</vendorcode>
+            <customFields>
+                <customText1>销售单号</customText1>
+                <customText2>运输时限</customText2>
+                <customText3>过账时间</customText3>
+            </customFields>
+
+            <shipFrom>
+                <companyName>未央仓</companyName>
+                <province>陕西省</province>
+                <town>西安市</town>
+                <county>雁塔区</county>
+                <address>陕西省西安市未央区</address>
+                <loading>false</loading>
+                <contact>
+                    <name>Jim</name>
+                    <phone>56565579</phone>
+                    <phoneAreaCode>0311</phoneAreaCode>
+                    <mobile>13571231099</mobile>
+                </contact>
+                <locationRemarks></locationRemarks>
+            </shipFrom>
+            <shipTo>
+                <companyName>西安A库</companyName>
+                <province>陕西省</province>
+                <town>西安市</town>
+                <county>雁塔区</county>
+                <address>陕西省西安市碑林区</address>
+                <loading>false</loading>
+                <contact>
+                    <name>Jim</name>
+                    <phone>56565579</phone>
+                    <phoneAreaCode>0311</phoneAreaCode>
+                    <mobile>13571231099</mobile>
+                </contact>
+                <locationRemarks></locationRemarks>
+            </shipTo>
+            <timeSchedule>
+                <pickupDate>2018-06-19</pickupDate>
+                <pickupTimeFrom>2018-06-19 00:00:00</pickupTimeFrom>
+                <pickupTimeTo>2018-06-19 23:59:59</pickupTimeTo>
+
+                <deliveryDate>2018-06-30</deliveryDate>
+                <deliveryTimeFrom>2018-06-19 00:00:00</deliveryTimeFrom>
+                <deliveryTimeTo>2018-06-19 23:59:59</deliveryTimeTo>
+            </timeSchedule>
+            <orderLines>
+                <orderLine>
+                    <cargoDescription>
+                        <productCode>air-PK-2305</productCode>
+                        <productName>阿迪达斯</productName>
+                        <unitType>2</unitType>
+                        <unitLength>1</unitLength>
+                        <unitWidth>1</unitWidth>
+                        <unitHeight>1</unitHeight>
+                        <unitWeight>1</unitWeight>
+                    </cargoDescription>
+                    <quantity>200</quantity>
+                </orderLine>
+                <orderLine>
+                    <cargoDescription>
+                        <productCode>air-PK-2305</productCode>
+                        <productName>阿迪达斯</productName>
+                        <unitType>2</unitType>
+                        <unitLength>1</unitLength>
+                        <unitWidth>1</unitWidth>
+                        <unitHeight>1</unitHeight>
+                        <unitWeight>1</unitWeight>
+                    </cargoDescription>
+                    <quantity>200</quantity>
+                </orderLine>
+            </orderLines>
+            <cargoDetails>
+                <totalQuantity>500</totalQuantity>
+                <totalWeight>450</totalWeight>
+                <totalVolume>1</totalVolume>
+                <cargoType>1</cargoType>
+                <packageType>A</packageType>
+            </cargoDetails>
+            <transportMode>
+                <transportType>LTL</transportType>
+                <truckType>2</truckType>
+                <transportRemarks></transportRemarks>
+                <truckLength></truckLength>
+            </transportMode>
+        </order>
+    </orders>
+</orderImportRequest>
