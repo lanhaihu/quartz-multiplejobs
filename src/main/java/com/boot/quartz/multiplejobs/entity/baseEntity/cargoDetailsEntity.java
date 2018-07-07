@@ -9,11 +9,12 @@ import java.io.Serializable;
  * Created by zou on 2018/7/3.
  */
 @XmlRootElement(name = "cargoDetails")
-@XmlType(propOrder = {"totalWeight","totalVolume","cargoType","packageType"})
+@XmlType(propOrder = {"totalWeight","totalVolume","cargoType","packageType","totalQuantity"})
 public class cargoDetailsEntity implements Serializable {
     private static final Long serialVersionUID=1L;
     private String totalWeight;
     private String totalVolume;
+    private String totalQuantity;
     private String cargoType;
     private String packageType;
 
@@ -60,4 +61,12 @@ public class cargoDetailsEntity implements Serializable {
         this.packageType = packageType;
     }
 
+    @XmlElement(name = "totalQuantity")
+    public String getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(String totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
 }

@@ -3,22 +3,30 @@ package com.boot.quartz.multiplejobs.entity;
 
 
 import com.boot.quartz.multiplejobs.entity.baseEntity.orderResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by zou on 2018/7/6.
  */
 @XmlRootElement(name = "orderImportResponse")
-@XmlType(propOrder = {"processedOrders","orders"})
-public class OrderImportResponseEntity {
+@XmlType(propOrder = {"responseCode","processedOrders","orders"})
+public class OrderImportResponseEntity implements Serializable{
+
     private String version;
+
+    @XmlElement(name = "responseCode")
+    private String responseCode;
+
     private String processedOrders;
     private List<orderResponseEntity> orders;
 
-    public OrderImportResponseEntity(String version, String processedOrders, List<orderResponseEntity> orders) {
+    public OrderImportResponseEntity(String version, String responseCode, String processedOrders, List<orderResponseEntity> orders) {
         this.version = version;
+        this.responseCode = responseCode;
         this.processedOrders = processedOrders;
         this.orders = orders;
     }
@@ -50,5 +58,13 @@ public class OrderImportResponseEntity {
 
     public void setOrders(List<orderResponseEntity> orders) {
         this.orders = orders;
+    }
+
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 }

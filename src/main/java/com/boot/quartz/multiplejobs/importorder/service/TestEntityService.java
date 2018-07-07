@@ -1,10 +1,13 @@
 package com.boot.quartz.multiplejobs.importorder.service;
 
+import com.boot.quartz.multiplejobs.db.entity.CargoListEntity;
 import com.boot.quartz.multiplejobs.db.entity.TestEntity;
+import com.boot.quartz.multiplejobs.db.mapper.ImportOrderMapper;
 import com.boot.quartz.multiplejobs.db.mapper.TestEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,4 +22,6 @@ public class TestEntityService {
     public List<TestEntity> getEntitys(String id){
         return testEntityMapper.findById(id);
     }
+
+
 }
