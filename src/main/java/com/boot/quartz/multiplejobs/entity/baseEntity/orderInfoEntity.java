@@ -18,7 +18,7 @@ public class orderInfoEntity implements Serializable{
     private String clientCode;
     private String branch;
     private String vendorcode;
-    private String customFields;
+    private customFieldEntity customFields;
     private String clientReferenceNumber;
     private String erpNumber;
     private shipFromEntity shipFrom;
@@ -127,12 +127,12 @@ public class orderInfoEntity implements Serializable{
     public void setVendorcode(String vendorcode) {
         this.vendorcode = vendorcode;
     }
-    @XmlElement(name="customFields")
-    public String getCustomFields() {
+    @XmlElement(name = "customFields")
+    public customFieldEntity getCustomFields() {
         return customFields;
     }
 
-    public void setCustomFields(String customFields) {
+    public void setCustomFields(customFieldEntity customFields) {
         this.customFields = customFields;
     }
 
