@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.quartz.multiplejobs.db.mapper.TestEntityMapper">
+    <resultMap id="testmap" type="com.boot.quartz.multiplejobs.db.entity.TestEntity">
+        <id property="costsEstimateId" column="costs_estimate_id"/>
+        <result property="reckonUnitId" column="reckon_unit_id"/>
+    </resultMap>
+    <select id="findById" resultMap="testmap">
+       select * from dr_estimate_costs
+        WHERE
+        costs_estimate_id = #{id}
+    </select>
+</mapper>
