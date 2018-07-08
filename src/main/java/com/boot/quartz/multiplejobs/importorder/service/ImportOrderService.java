@@ -165,6 +165,19 @@ public class ImportOrderService {
             cargoDetails.setTotalVolume(totalVolume + "");
             cargoDetails.setTotalWeight(totalWeight + "");
 
+            customFields.setCustomText1(entity.getCustomText1());
+            customFields.setCustomText2(entity.getCustomText2());
+            customFields.setCustomText3(entity.getCustomText3());
+            customFields.setCustomText4(entity.getCustomText4());
+            customFields.setCustomText5(entity.getCustomText5());
+            customFields.setCustomText6(entity.getCustomText6());
+            customFields.setCustomText7(entity.getCustomText7());
+            customFields.setCustomText8(entity.getCustomText8());
+            customFields.setCustomText9(entity.getCustomText9());
+            customFields.setCustomText15(entity.getCustomText15());
+            customFields.setCustomText16(entity.getCustomText16());
+            customFields.setCustomText17(entity.getCustomText17());
+            customFields.setCustomText18(entity.getCustomText18());
 
             transportMode.setTransportType("ETL");
             transportMode.setTruckType("2");
@@ -176,7 +189,7 @@ public class ImportOrderService {
             orderInfo.setClientReferenceNumber(entity.getClientReferenceNumber());
 
             //TODO
-            //orderInfo.setCustomFields();
+            orderInfo.setCustomFields(customFields);
 
             orderInfo.setErpNumber(entity.getErpNumber());
             orderInfo.setOrderLines(orderLines);

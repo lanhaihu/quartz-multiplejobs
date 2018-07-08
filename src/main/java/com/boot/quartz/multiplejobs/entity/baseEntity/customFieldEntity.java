@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by zou on 2018/7/7.
@@ -12,51 +13,24 @@ import java.io.Serializable;
 @XmlRootElement(name = "customFields")
 public class customFieldEntity implements Serializable{
     private static final Long serialVersionUID=1L;
- 
-    private String customText1;
 
-
-    private String customText2;
-
-
-
-    private String customText3;
-
- 
-    private String customText4;
-
-
- 
-    private String customText5;
-
-
- 
-    private String customText6;
-
-
- 
-    private String customText7;
-
- 
-    private String customText8;
-
-
- 
-    private String customText9;
-
- 
-    private String customText10;
-
-
- 
-    private String customText11;
-
-
- 
-    private String customText12;
-    
- 
-    private String customText13;
+    String customText1; // 销售单号
+    Date customText2; //过账时限
+    String customText3; //业务员
+    String customText4; //业务员电话
+    String customText5; // 制单人
+    Date customText6; //制单时间
+    String customText7; // 客户名称
+    String customText8; //交货单行号
+    String customText9; //随货同行单行号
+    String customText10;
+    String customText11;
+    String customText12;
+    String customText13;
+    String customText15; //批号
+    Date customText16; //生产日期
+    Date customText17; //有效期至
+    String customText18; //备注
 
     @XmlElement(name ="customText1")
     public String getCustomText1() {
@@ -67,11 +41,11 @@ public class customFieldEntity implements Serializable{
         this.customText1 = customText1;
     }
     @XmlElement(name ="customText2")
-    public String getCustomText2() {
+    public Date getCustomText2() {
         return customText2;
     }
 
-    public void setCustomText2(String customText2) {
+    public void setCustomText2(Date customText2) {
         this.customText2 = customText2;
     }
     @XmlElement(name ="customText3")
@@ -99,11 +73,11 @@ public class customFieldEntity implements Serializable{
         this.customText5 = customText5;
     }
     @XmlElement(name ="customText6")
-    public String getCustomText6() {
+    public Date getCustomText6() {
         return customText6;
     }
 
-    public void setCustomText6(String customText6) {
+    public void setCustomText6(Date customText6) {
         this.customText6 = customText6;
     }
     @XmlElement(name ="customText7")
@@ -161,5 +135,41 @@ public class customFieldEntity implements Serializable{
 
     public void setCustomText13(String customText13) {
         this.customText13 = customText13;
+    }
+
+    @XmlElement(name ="customText15")
+    public String getCustomText15() {
+        return customText15;
+    }
+
+    public void setCustomText15(String customText15) {
+        this.customText15 = customText15;
+    }
+
+    @XmlElement(name ="customText16")
+    public Date getCustomText16() {
+        return customText16;
+    }
+
+    public void setCustomText16(Date customText16) {
+        this.customText16 = customText16;
+    }
+
+    @XmlElement(name ="customText17")
+    public Date getCustomText17() {
+        return customText17;
+    }
+
+    public void setCustomText17(Date customText17) {
+        this.customText17 = customText17;
+    }
+
+    @XmlElement(name ="customText18")
+    public String getCustomText18() {
+        return customText18;
+    }
+
+    public void setCustomText18(String customText18) {
+        this.customText18 = customText18;
     }
 }
