@@ -1,16 +1,11 @@
 package com.boot.quartz.multiplejobs.job;
 
-import java.util.List;
-
 import com.boot.quartz.multiplejobs.importorder.service.ImportOrderService;
-import com.boot.util.ConstantInfoUtil;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
-import com.boot.quartz.multiplejobs.importorder.service.IImportOrderService;
-import com.boot.quartz.multiplejobs.bean.dr_estimate_costs;
 @Service
 public class ImportOrderJob extends QuartzJobBean {
 
