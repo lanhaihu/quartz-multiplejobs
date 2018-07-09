@@ -32,6 +32,7 @@ public class ImportOrderJob extends QuartzJobBean {
         }
         importOrderService.updateByIds(8,2);*/
 
-        importOrderService.startImportCargoList();
+        importOrderService.startImportCargoList("cargo");
+        importOrderService.startImportCargoList("delivery");
     }
 }

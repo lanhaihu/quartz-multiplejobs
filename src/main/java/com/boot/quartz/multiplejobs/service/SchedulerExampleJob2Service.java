@@ -32,7 +32,7 @@ public class SchedulerExampleJob2Service {
     @PostConstruct
     public void setupJobs() throws ParseException, SchedulerException {
         //@Value("${triggers.cron1}") String cron
-        scheduleJob(ExampleJob2.class, null, "0/5 * * * * ?", "ExampleJob2", "trigger2");
+        //scheduleJob(ExampleJob2.class, null, "0/5 * * * * ?", "ExampleJob2", "trigger2");
     }
 
     public void scheduleJob(Class<? extends QuartzJobBean> object, JobDataMap jMap, String frequency, String jobName, String triggerName)

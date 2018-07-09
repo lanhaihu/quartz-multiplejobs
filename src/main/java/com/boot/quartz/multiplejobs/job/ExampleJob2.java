@@ -19,11 +19,11 @@ public class ExampleJob2 extends QuartzJobBean {
 
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         System.out.println("EXECUTE JOB 2");
-        List<TestEntity> entitys = new ArrayList<TestEntity>();
+        /*List<TestEntity> entitys = new ArrayList<TestEntity>();
         entitys = testEntityService.getEntitys("1");
         for(TestEntity entity : entitys){
             System.out.println(entity.getReckonUnitId());
             System.out.println(entity.getCostsEstimateId());
-        }
+        }*/
     }
 }
