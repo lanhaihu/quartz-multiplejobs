@@ -120,12 +120,12 @@
      and A.output_status =0
     </select>
 
-    <update id="updateCargoListByIds" parameterType="java.util.ArrayList" >
+    <update id="updateCargoListByIds" parameterType="java.util.ArrayList">
         update CARGO_LIST set OUTPUT_STATUS = '1'
         WHERE ID = #{cargoId}
     </update>
 
-    <update id="updateCargoListBByCarGoIds" parameterType="java.util.ArrayList" >
+    <update id="updateCargoListBByCarGoIds" parameterType="java.util.ArrayList">
         update CARGO_LIST_B set OUTPUT_STATUS = '1'
         WHERE CARGO_ID = #{cargoId}
     </update>
@@ -170,7 +170,7 @@
         <result property="productCode" column="productCode"/>
         <result property="unitType" column="unitType"/>
         <result property="volume" column="volume"/>
-        <result property="unitWidth" column="unitWidth"/>
+        <result property="unitWeight" column="unitWeight"/>
         <result property="quantity" column="quantity"/>
         <result property="customText1" column="customText1"/>
         <result property="customText2" column="customText2"/>
@@ -225,7 +225,7 @@
         ,B.MATERIAL_CODE productCode -- 物品编码
         ,B.UNIT unitType -- 计量单位
         ,B.VOLUME -- 体积
-        ,B.WEIGHT unitWidth -- 单品重量
+        ,B.WEIGHT unitWeight -- 单品重量
         ,B.QUANTITY quantity -- 数量
         ,A.SALE_BILLCODE customText1 -- 销售单号
       ,A.ORDERTIME customText2 -- 过账时限
@@ -246,12 +246,12 @@
         and A.output_status =0
     </select>
 
-    <update id="updateDeliveryListByIds" parameterType="java.util.ArrayList" >
+    <update id="updateDeliveryListByIds" parameterType="java.util.ArrayList">
         update DELIVERY_ORDER set OUTPUT_STATUS = '1'
         WHERE ID = #{deliveryId}
     </update>
 
-    <update id="updateDeliveryListBByCarGoIds" parameterType="java.util.ArrayList" >
+    <update id="updateDeliveryListBByCarGoIds" parameterType="java.util.ArrayList">
         update DELIVERY_ORDER_B set OUTPUT_STATUS = '1'
         WHERE DELIVERY_ID = #{deliveryId}
     </update>

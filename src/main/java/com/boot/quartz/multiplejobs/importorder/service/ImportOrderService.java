@@ -49,7 +49,9 @@ public class ImportOrderService {
             orderImportRequestEntity = dataLoad(entitys);
             strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
             try{
+                log.info("发送导入请求开始，原始数据为"+strRequestXml);
                 strResponseXml = HttpClient.send(url,strRequestXml);
+                log.info("导入请求响应结果为"+strResponseXml);
                 orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
                 strResponseCode = orderImportResponseEntity.getResponseCode();
                 if("0".equals(strResponseCode)){
@@ -172,7 +174,7 @@ public class ImportOrderService {
             totalWeight = 0;
             for(CargoListEntity entityB : entityBList){
                 totalVolume += entityB.getVolume();
-                totalWeight += entity.getUnitWeight();
+                totalWeight += entityB.getUnitWeight();
                 orderLineEntity orderLine = new orderLineEntity();
                 cargoDescriptionEntity cargoDescription = new cargoDescriptionEntity();
                 cargoDescription.setProductCode(entityB.getProductCode());

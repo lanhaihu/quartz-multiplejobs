@@ -1,6 +1,7 @@
 package com.boot.quartz.multiplejobs.db.entity;
 
 import java.util.Date;
+
 /**
  * Created by zhaos on 2018/7/7.
  */
@@ -26,7 +27,7 @@ public class CargoListEntity extends BaseEntity {
     String shipTo_town; // 收货城市
     String shipTo_county; // 收货区县
     String shipTo_address; // 收货详细地址
-    String shipTo_loading ; // 装货标记
+    String shipTo_loading; // 装货标记
     String shipTo_contact_name; // 收货方联系人
     String shipTo_contact_phone; // 收货方座机
     String shipTo_contact_phoneAreaCode; // 收货方座机区号
