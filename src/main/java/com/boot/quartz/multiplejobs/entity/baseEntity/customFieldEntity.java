@@ -1,9 +1,11 @@
 package com.boot.quartz.multiplejobs.entity.baseEntity;
 
+import com.boot.util.XmlyyyyMMddHHmmssDateAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -41,6 +43,7 @@ public class customFieldEntity implements Serializable{
         this.customText1 = customText1;
     }
     @XmlElement(name ="customText2")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getCustomText2() {
         return customText2;
     }
@@ -73,6 +76,7 @@ public class customFieldEntity implements Serializable{
         this.customText5 = customText5;
     }
     @XmlElement(name ="customText6")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getCustomText6() {
         return customText6;
     }
@@ -147,6 +151,7 @@ public class customFieldEntity implements Serializable{
     }
 
     @XmlElement(name ="customText16")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getCustomText16() {
         return customText16;
     }
@@ -156,6 +161,7 @@ public class customFieldEntity implements Serializable{
     }
 
     @XmlElement(name ="customText17")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getCustomText17() {
         return customText17;
     }

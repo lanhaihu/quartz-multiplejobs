@@ -51,11 +51,11 @@ public class ConstantInfoUtil {
 
 
     public static void setREQUESTVERSION(String rEQUESTVERSION) {
-        REQUESTVERSION = REQUESTVERSION;
+        REQUESTVERSION = rEQUESTVERSION;
     }
 
 
     public static void setREQUESTURL(String rEQUESTURL) {
-        REQUESTURL = REQUESTURL;
+        REQUESTURL = rEQUESTURL;
     }
 }
