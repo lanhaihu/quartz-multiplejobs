@@ -170,9 +170,11 @@ public class ImportOrderService {
             entity = getOneCargoListEntityByBillCode(entitys,billCode);
             entityBList = getCargoListBByBillCode(entitys,billCode);
 
+            int totalQuantity=0;
             totalVolume = 0;
             totalWeight = 0;
             for(CargoListEntity entityB : entityBList){
+                totalQuantity+=entityB.getQuantity();
                 totalVolume += entityB.getVolume();
                 totalWeight += entityB.getUnitWeight();
                 orderLineEntity orderLine = new orderLineEntity();
@@ -227,6 +229,8 @@ public class ImportOrderService {
             cargoDetails.setPackageType("A");
             cargoDetails.setTotalVolume(totalVolume + "");
             cargoDetails.setTotalWeight(totalWeight + "");
+            //添加总数
+            cargoDetails.setTotalQuantity(totalQuantity+"");
 
             customFields.setCustomText1(entity.getCustomText1());
             customFields.setCustomText2(entity.getCustomText2());

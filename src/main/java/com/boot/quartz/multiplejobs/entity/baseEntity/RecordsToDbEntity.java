@@ -34,4 +34,10 @@ public class RecordsToDbEntity implements Serializable{
     public void setBusinessId(String businessId) {
         this.businessId = businessId;
     }
+
+    @Override
+    public String toString() {
+
+        return "业务ID为："+businessId+",requestParam:"+requestParam+",responseResult"+responseResult;
+    }
 }
