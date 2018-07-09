@@ -17,7 +17,7 @@ public interface ImportOrderMapper {
 
     int updateCargoListBByCarGoIds(String cargoId);
 
-    List<DeliverListEntiy>findDelistByOutputStatus(String status);
+    List<CargoListEntity>findDelistByOutputStatus(String status);
 
     int updateDeliveryListByIds(String deliveryId);
 

@@ -23,7 +23,7 @@ public class ImportOrderService {
     @Autowired
     private ImportOrderMapper importOrderMapper;
 
-    public void startImportCargoList(){
+    public void startImportCargoList(String type){
 
         List<CargoListEntity> entitys = new ArrayList<CargoListEntity>();
         OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
@@ -33,7 +33,13 @@ public class ImportOrderService {
         String strResponseXml = "";
         String strResponseCode = "";
 
-        entitys = importOrderMapper.findByOutputStatus("0");
+        if("cargo".equals(type)){
+            entitys = importOrderMapper.findByOutputStatus("0");
+        }else if("delivery".equals(type)){
+            entitys = importOrderMapper.findDelistByOutputStatus("0");
+        }else{
+            System.out.println("type没有匹配到");
+        }
 
         if(entitys.size() > 0){
             String url = ConstantInfoUtil.getUrl();
@@ -64,20 +70,16 @@ public class ImportOrderService {
 
                         }else if("DRAFT".equals(strImportStatus)){
                             //草稿 (订单信息不全)
-                            importOrderMapper.updateCargoListByIds(cargoId);
-                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                            updateStatus(type,cargoId);
                         }else if("INBOX".equals(strImportStatus)){
                             //已导入
-                            importOrderMapper.updateCargoListByIds(cargoId);
-                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                            updateStatus(type,cargoId);
                         }else if("RELEASED".equals(strImportStatus)){
                             //已释放
-                            importOrderMapper.updateCargoListByIds(cargoId);
-                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                            updateStatus(type,cargoId);
                         }else if("DISPATCHED".equals(strImportStatus)){
                             //已分配
-                            importOrderMapper.updateCargoListByIds(cargoId);
-                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                            updateStatus(type,cargoId);
                         }else{
                             System.out.println("未知返回状态");
                         }
@@ -92,6 +94,19 @@ public class ImportOrderService {
             }
         }
     }
+
+    private void updateStatus(String type,String id) {
+        if("cargo".equals(type)){
+            importOrderMapper.updateCargoListByIds(id);
+            importOrderMapper.updateCargoListBByCarGoIds(id);
+        }else if("delivery".equals(type)){
+            importOrderMapper.updateDeliveryListByIds(id);
+            importOrderMapper.updateDeliveryListBByCarGoIds(id);
+        }else{
+            System.out.println("type没有匹配到");
+        }
+    }
+
 
     private ArrayList<String> getCarGoIdList(List<CargoListEntity> entitys){
         ArrayList<String> resultList = new ArrayList<String>();

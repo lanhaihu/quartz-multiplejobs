@@ -186,7 +186,7 @@
         <result property="customText17" column="customText17"/>
         <result property="customText18" column="customText18"/>
     </resultMap>
-    <select id="findDelistByOutputStatus" resultMap="deliverymap">
+    <select id="findDelistByOutputStatus" resultMap="cargomap">
         select A.ID
         ,A.BILLCODE erpNumber -- ERP/WMS单据编号
         ,A.org_code branch -- 地区
@@ -246,12 +246,12 @@
         and A.output_status =0
     </select>
 
-    <update id="updateCargoListByIds" parameterType="java.util.ArrayList" >
+    <update id="updateDeliveryListByIds" parameterType="java.util.ArrayList" >
         update DELIVERY_ORDER set OUTPUT_STATUS = '1'
         WHERE ID = #{deliveryId}
     </update>
 
-    <update id="updateCargoListBByCarGoIds" parameterType="java.util.ArrayList" >
+    <update id="updateDeliveryListBByCarGoIds" parameterType="java.util.ArrayList" >
         update DELIVERY_ORDER_B set OUTPUT_STATUS = '1'
         WHERE DELIVERY_ID = #{deliveryId}
     </update>
