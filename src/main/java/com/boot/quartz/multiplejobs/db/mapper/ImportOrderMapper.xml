@@ -107,7 +107,7 @@
       ,A.SALER_PHONE customText4 -- 业务员电话
       ,A.DOCUMENTMAKER customText5 -- 制单人
       ,A.DOCUMENTS_TIME customText6 -- 制单时间
-      ,'客户名称' customText7 -- 客户名称
+      ,A.Consignee customText7 -- 客户名称
       ,B.DELIVERY_ROWNUM customText8 -- 交货单行号
       ,B.HANGHAO customText9 -- 随货同行单行号
       ,B.MATERIAL_BATCH customText15 -- 批号
@@ -132,7 +132,7 @@
 
 
     <resultMap id="deliverymap" type="com.boot.quartz.multiplejobs.db.entity.DeliverListEntiy">
-        <id property="id" column="id"/>
+        <result property="id" column="id"/>
         <result property="erpNumber" column="erpNumber"/>
         <result property="branch" column="branch"/>
         <result property="clientReferenceNumber" column="clientReferenceNumber"/>
@@ -172,12 +172,25 @@
         <result property="volume" column="volume"/>
         <result property="unitWidth" column="unitWidth"/>
         <result property="quantity" column="quantity"/>
+        <result property="customText1" column="customText1"/>
+        <result property="customText2" column="customText2"/>
+        <result property="customText3" column="customText3"/>
+        <result property="customText4" column="customText4"/>
+        <result property="customText5" column="customText5"/>
+        <result property="customText6" column="customText6"/>
+        <result property="customText7" column="customText7"/>
+        <result property="customText8" column="customText8"/>
+        <result property="customText9" column="customText9"/>
+        <result property="customText15" column="customText15"/>
+        <result property="customText16" column="customText16"/>
+        <result property="customText17" column="customText17"/>
+        <result property="customText18" column="customText18"/>
     </resultMap>
     <select id="findDelistByOutputStatus" resultMap="deliverymap">
         select A.ID
         ,A.BILLCODE erpNumber -- ERP/WMS单据编号
         ,A.org_code branch -- 地区
-        ,A.DELIVERY_BILLCODE clientReferenceNumber -- 外部查询单号
+        ,A.BILLCODE clientReferenceNumber -- 外部查询单号
         ,1 autoProcessMode -- 订单处理模式
         ,A.CARRIER_ID vendorcode -- 承运商在oTMS系统中的公司代码
         ,A.SHIPPER shipFrom_companyName --发货方
@@ -214,11 +227,34 @@
         ,B.VOLUME -- 体积
         ,B.WEIGHT unitWidth -- 单品重量
         ,B.QUANTITY quantity -- 数量
+        ,A.SALE_BILLCODE customText1 -- 销售单号
+      ,A.ORDERTIME customText2 -- 过账时限
+      ,A.SALER customText3 -- 业务员
+      ,A.SALER_PHONE customText4 -- 业务员电话
+      ,A.DOCUMENTMAKER customText5 -- 制单人
+      ,A.DOCUMENTS_TIME customText6 -- 制单时间
+      ,A.Consignee customText7 -- 客户名称
+      ,B.HANGHAO customText8 -- 交货单行号
+      ,B.HANGHAO customText9 -- 随货同行单行号
+      ,B.MATERIAL_BATCH customText15 -- 批号
+      ,B.RELEASE_DATE customText16 -- 生产日期
+      ,B.EXPIRING_DATE customText17 -- 有效期至
+      ,B.REMARKS customText18 -- 备注
         from DELIVERY_ORDER A, DELIVERY_ORDER_B B
-        where A.ID = B.CARGO_ID
-        and B.OUTPUT_STATUS =#{status}
-        and A.output_status =#{status}
+        where A.ID = B.DELIVERY_ID
+        and B.OUTPUT_STATUS =0
+        and A.output_status =0
     </select>
+
+    <update id="updateCargoListByIds" parameterType="java.util.ArrayList" >
+        update DELIVERY_ORDER set OUTPUT_STATUS = '1'
+        WHERE ID = #{deliveryId}
+    </update>
+
+    <update id="updateCargoListBByCarGoIds" parameterType="java.util.ArrayList" >
+        update DELIVERY_ORDER_B set OUTPUT_STATUS = '1'
+        WHERE DELIVERY_ID = #{deliveryId}
+    </update>
 </mapper>
 
 
