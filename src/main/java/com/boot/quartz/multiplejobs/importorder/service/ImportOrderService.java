@@ -8,6 +8,7 @@ import com.boot.quartz.multiplejobs.entity.baseEntity.*;
 import com.boot.util.ConstantInfoUtil;
 import com.boot.util.HttpClient;
 import com.boot.util.XmlConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,14 @@ import java.util.List;
  * Created by zhaos on 2018/7/7.
  */
 @Service
+@Slf4j
 public class ImportOrderService {
     @Autowired
     private ImportOrderMapper importOrderMapper;
 
     public void startImportCargoList(String type){
-
+        log.info("导入订单开始");
+        log.info("type="+type);
         List<CargoListEntity> entitys = new ArrayList<CargoListEntity>();
         OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
         OrderImportResponseEntity orderImportResponseEntity = new OrderImportResponseEntity();
@@ -91,8 +94,10 @@ public class ImportOrderService {
                 }
             }catch(Exception e){
                 e.printStackTrace();
+                log.error("请求异常",e);
             }
         }
+        log.info("导入订单结束");
     }
 
     private void updateStatus(String type,String id) {
