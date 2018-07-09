@@ -54,10 +54,38 @@ public class ImportOrderService {
                     System.out.println("请求中的导入订单过多");
                 }else{
                     //成功
-                    ArrayList<String> ids = null;
+                    List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
+                    for(orderResponseEntity orderResponseEntity : orderResponseList){
+                        String strImportStatus = orderResponseEntity.getImportStatus();
+                        String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
+                        String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                        if("NOT IMPORTED".equals(strImportStatus)){
+                            //导入失败
+
+                        }else if("DRAFT".equals(strImportStatus)){
+                            //草稿 (订单信息不全)
+                            importOrderMapper.updateCargoListByIds(cargoId);
+                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                        }else if("INBOX".equals(strImportStatus)){
+                            //已导入
+                            importOrderMapper.updateCargoListByIds(cargoId);
+                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                        }else if("RELEASED".equals(strImportStatus)){
+                            //已释放
+                            importOrderMapper.updateCargoListByIds(cargoId);
+                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                        }else if("DISPATCHED".equals(strImportStatus)){
+                            //已分配
+                            importOrderMapper.updateCargoListByIds(cargoId);
+                            importOrderMapper.updateCargoListBByCarGoIds(cargoId);
+                        }else{
+                            System.out.println("未知返回状态");
+                        }
+                    }
+                   /* ArrayList<String> ids = null;
                     ids = getCarGoIdList(entitys);
                     importOrderMapper.updateCargoListByIds(ids);
-                    importOrderMapper.updateCargoListBByCarGoIds(ids);
+                    importOrderMapper.updateCargoListBByCarGoIds(ids);*/
                 }
             }catch(Exception e){
                 e.printStackTrace();
@@ -75,6 +103,17 @@ public class ImportOrderService {
             resultList.add(id);
         }
         return resultList;
+    }
+
+    private String getCarGoidByBillCode(List<CargoListEntity> entitys,String billCode){
+        String result = "";
+        for(CargoListEntity entity : entitys){
+            if(billCode.equals(entity.getErpNumber())){
+                result = entity.getId();
+                break;
+            }
+        }
+        return result;
     }
 
     private OrderImportRequestEntity dataLoad(List<CargoListEntity> entitys) {

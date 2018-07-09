@@ -64,7 +64,7 @@
        select A.ID
       ,A.BILLCODE erpNumber -- ERP/WMS单据编号
       ,A.org_code branch -- 地区
-      ,A.DELIVERY_BILLCODE clientReferenceNumber -- 外部查询单号
+      ,A.BILLCODE clientReferenceNumber -- 外部查询单号
       ,1 autoProcessMode -- 订单处理模式
       ,A.CARRIER_ID vendorcode -- 承运商在oTMS系统中的公司代码
       ,A.SHIPPER shipFrom_companyName --发货方
@@ -122,24 +122,12 @@
 
     <update id="updateCargoListByIds" parameterType="java.util.ArrayList" >
         update CARGO_LIST set OUTPUT_STATUS = '1'
-        WHERE 1 = 1
-        <if test="Ids != null">
-            AND ID IN
-            <foreach collection="Ids" item="id" index="index" open="(" separator="," close=")">
-                '${id}'
-            </foreach>
-        </if>
+        WHERE ID = #{cargoId}
     </update>
 
     <update id="updateCargoListBByCarGoIds" parameterType="java.util.ArrayList" >
         update CARGO_LIST_B set OUTPUT_STATUS = '1'
-        WHERE 1 = 1
-        <if test="Ids != null">
-            AND CARGO_ID IN
-            <foreach collection="Ids" item="id" index="index" open="(" separator="," close=")">
-                '${id}'
-            </foreach>
-        </if>
+        WHERE CARGO_ID = #{cargoId}
     </update>
 
 
