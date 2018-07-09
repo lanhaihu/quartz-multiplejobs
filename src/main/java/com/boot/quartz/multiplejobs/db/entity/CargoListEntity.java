@@ -1,6 +1,6 @@
 package com.boot.quartz.multiplejobs.db.entity;
 
-import java.sql.Date;
+import java.util.Date;
 /**
  * Created by zhaos on 2018/7/7.
  */

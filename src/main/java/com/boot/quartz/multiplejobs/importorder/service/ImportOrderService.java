@@ -9,6 +9,7 @@ import com.boot.util.ConstantInfoUtil;
 import com.boot.util.HttpClient;
 import com.boot.util.XmlConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by zhaos on 2018/7/7.
  */
+@Service
 public class ImportOrderService {
     @Autowired
     private ImportOrderMapper importOrderMapper;
@@ -200,8 +202,10 @@ public class ImportOrderService {
             orderInfo.setTransportMode(transportMode);
             orderInfo.setVendorcode(entity.getVendorcode());
 
+            orderInfoList.add(orderInfo);
             i++ ;
         }
+        orderImportRequestEntity.setOrders(orderInfoList);
         return orderImportRequestEntity;
     }
 

@@ -13,9 +13,9 @@ import java.util.List;
 public interface ImportOrderMapper {
     List<CargoListEntity> findByOutputStatus(String status);
 
-    int updateCargoListByIds(ArrayList<String> ids);
+    int updateCargoListByIds(ArrayList<String> Ids);
 
-    int updateCargoListBByCarGoIds(ArrayList<String> ids);
+    int updateCargoListBByCarGoIds(ArrayList<String> Ids);
 
     List<DeliverListEntiy>findDelistByOutputStatus(String status);
 }

@@ -1,8 +1,11 @@
 package com.boot.quartz.multiplejobs.entity.baseEntity;
 
+import com.boot.util.XmlyyyyMMddHHmmssDateAdapter;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,6 +26,7 @@ public class timeScheduleEntity implements Serializable{
     private Date deliveryTimeTo;
 
     @XmlElement(name = "pickupDate")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getPickupDate() {
         return pickupDate;
     }
@@ -32,6 +36,7 @@ public class timeScheduleEntity implements Serializable{
     }
 
     @XmlElement(name = "deliveryDate")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -41,6 +46,7 @@ public class timeScheduleEntity implements Serializable{
     }
 
     @XmlElement(name = "pickupTimeFrom")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getPickupTimeFrom() {
         return pickupTimeFrom;
     }
@@ -50,6 +56,7 @@ public class timeScheduleEntity implements Serializable{
     }
 
     @XmlElement(name = "pickupTimeTo")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getPickupTimeTo() {
         return pickupTimeTo;
     }
@@ -59,6 +66,7 @@ public class timeScheduleEntity implements Serializable{
     }
 
     @XmlElement(name = "deliveryTimeFrom")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getDeliveryTimeFrom() {
         return deliveryTimeFrom;
     }
@@ -68,6 +76,7 @@ public class timeScheduleEntity implements Serializable{
     }
 
     @XmlElement(name = "deliveryTimeTo")
+    @XmlJavaTypeAdapter(XmlyyyyMMddHHmmssDateAdapter.class)
     public Date getDeliveryTimeTo() {
         return deliveryTimeTo;
     }

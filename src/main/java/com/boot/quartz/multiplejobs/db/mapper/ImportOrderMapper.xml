@@ -2,8 +2,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boot.quartz.multiplejobs.db.mapper.ImportOrderMapper">
-    <resultMap id="testmap" type="com.boot.quartz.multiplejobs.db.entity.CargoListEntity">
-        <id property="id" column="id"/>
+    <resultMap id="cargomap" type="com.boot.quartz.multiplejobs.db.entity.CargoListEntity">
+        <!-- <id property="id" column="id"/> -->
+        <result property="id" column="id"/>
         <result property="erpNumber" column="erpNumber"/>
         <result property="branch" column="branch"/>
         <result property="clientReferenceNumber" column="clientReferenceNumber"/>
@@ -59,7 +60,7 @@
     </resultMap>
 
 
-    <select id="findByOutputStatus" resultMap="testmap">
+    <select id="findByOutputStatus" resultMap="cargomap">
        select A.ID
       ,A.BILLCODE erpNumber -- ERP/WMS单据编号
       ,A.org_code branch -- 地区
@@ -109,14 +110,14 @@
       ,'客户名称' customText7 -- 客户名称
       ,B.DELIVERY_ROWNUM customText8 -- 交货单行号
       ,B.HANGHAO customText9 -- 随货同行单行号
-      ,'批号' customText15 -- 批号
+      ,B.MATERIAL_BATCH customText15 -- 批号
       ,B.RELEASE_DATE customText16 -- 生产日期
       ,B.EXPIRING_DATE customText17 -- 有效期至
       ,B.REMARKS customText18 -- 备注
     from CARGO_LIST A, CARGO_LIST_B B
     where A.ID = B.CARGO_ID
-     and B.OUTPUT_STATUS =#{status}
-     and A.output_status =#{status}
+     and B.OUTPUT_STATUS =0
+     and A.output_status =0
     </select>
 
     <update id="updateCargoListByIds" parameterType="java.util.ArrayList" >
