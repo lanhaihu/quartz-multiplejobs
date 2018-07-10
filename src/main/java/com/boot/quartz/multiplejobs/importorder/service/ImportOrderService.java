@@ -41,7 +41,7 @@ public class ImportOrderService {
         }else if("delivery".equals(type)){
             entitys = importOrderMapper.findDelistByOutputStatus("0");
         }else{
-            System.out.println("type没有匹配到");
+            log.error("type没有匹配到");
         }
 
         if(entitys.size() > 0){
@@ -56,15 +56,12 @@ public class ImportOrderService {
                 strResponseCode = orderImportResponseEntity.getResponseCode();
                 if("0".equals(strResponseCode)){
                     //客户验证失败
-                    System.out.println("用户校验失败");
                     log.error("用户校验失败");
                 }else if("1".equals(strResponseCode)){
                     //不支持的请求版本
-                    System.out.println("不支持的请求版本");
                     log.error("不支持的请求版本");
                 }else if("2".equals(strResponseCode)){
                     //请求中的导入订单过多
-                    System.out.println("请求中的导入订单过多");
                     log.error("请求中的导入订单过多");
                 }else{
                     //成功
@@ -90,7 +87,7 @@ public class ImportOrderService {
                             //已分配
                             updateStatus(type,cargoId);
                         }else{
-                            System.out.println("未知返回状态");
+                            log.error("未知返回状态");
                         }
                     }
                    /* ArrayList<String> ids = null;
@@ -114,7 +111,7 @@ public class ImportOrderService {
             importOrderMapper.updateDeliveryListByIds(id);
             importOrderMapper.updateDeliveryListBByCarGoIds(id);
         }else{
-            System.out.println("type没有匹配到");
+            log.error("type没有匹配到");
         }
     }
 
