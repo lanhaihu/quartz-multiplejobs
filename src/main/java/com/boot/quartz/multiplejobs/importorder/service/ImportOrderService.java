@@ -247,7 +247,7 @@ public class ImportOrderService {
             customFields.setCustomText17(entity.getCustomText17());
             customFields.setCustomText18(entity.getCustomText18());
 
-            transportMode.setTransportType("ETL");
+            transportMode.setTransportType("LTL");
             transportMode.setTruckType("2");
 
             orderInfoEntity  orderInfo = new orderInfoEntity();
