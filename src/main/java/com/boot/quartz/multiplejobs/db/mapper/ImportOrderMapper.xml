@@ -42,7 +42,7 @@
         <result property="productCode" column="productCode"/>
         <result property="unitType" column="unitType"/>
         <result property="volume" column="volume"/>
-        <result property="unitWidth" column="unitWidth"/>
+        <result property="unitWeight" column="unitWeight"/>
         <result property="quantity" column="quantity"/>
         <result property="customText1" column="customText1"/>
         <result property="customText2" column="customText2"/>
