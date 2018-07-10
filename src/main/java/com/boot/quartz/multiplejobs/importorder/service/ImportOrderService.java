@@ -204,6 +204,9 @@ public class ImportOrderService {
             shipFrom.setContactEntityEntiy(shipFromContactEntity);
             shipFrom.setLoading(entity.getShipFrom_loading());
             shipFrom.setLocationRemarks(entity.getShipFrom_locationRemarks());
+            shipFrom.setCounty(entity.getShipFrom_county());
+            shipFrom.setProvince(entity.getShipFrom_province());
+            shipFrom.setTown(entity.getShipFrom_town());
             //shipFrom.setPostcode();
 
             //shipToContactEntity.setEmail();
@@ -217,6 +220,9 @@ public class ImportOrderService {
             shipTo.setContactEntityEntiy(shipToContactEntity);
             shipTo.setLoading(entity.getShipTo_loading());
             shipTo.setLocationRemarks(entity.getShipTo_locationRemarks());
+            shipTo.setCounty(entity.getShipTo_county());
+            shipTo.setProvince(entity.getShipTo_province());
+            shipTo.setTown(entity.getShipTo_town());
             //shipTo.setPostcode();
 
             timeSchedule.setDeliveryDate(entity.getDeliveryDate());
