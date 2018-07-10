@@ -49,7 +49,9 @@ public class ImportOrderService {
             orderImportRequestEntity = dataLoad(entitys);
             strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
             try{
+                log.info("发送导入请求开始，原始数据为"+strRequestXml);
                 strResponseXml = HttpClient.send(url,strRequestXml);
+                log.info("导入请求响应结果为"+strResponseXml);
                 orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
                 strResponseCode = orderImportResponseEntity.getResponseCode();
                 if("0".equals(strResponseCode)){
@@ -168,11 +170,13 @@ public class ImportOrderService {
             entity = getOneCargoListEntityByBillCode(entitys,billCode);
             entityBList = getCargoListBByBillCode(entitys,billCode);
 
+            int totalQuantity=0;
             totalVolume = 0;
             totalWeight = 0;
             for(CargoListEntity entityB : entityBList){
+                totalQuantity+=entityB.getQuantity();
                 totalVolume += entityB.getVolume();
-                totalWeight += entity.getUnitWeight();
+                totalWeight += entityB.getUnitWeight();
                 orderLineEntity orderLine = new orderLineEntity();
                 cargoDescriptionEntity cargoDescription = new cargoDescriptionEntity();
                 cargoDescription.setProductCode(entityB.getProductCode());
@@ -225,6 +229,8 @@ public class ImportOrderService {
             cargoDetails.setPackageType("A");
             cargoDetails.setTotalVolume(totalVolume + "");
             cargoDetails.setTotalWeight(totalWeight + "");
+            //添加总数
+            cargoDetails.setTotalQuantity(totalQuantity+"");
 
             customFields.setCustomText1(entity.getCustomText1());
             customFields.setCustomText2(entity.getCustomText2());
