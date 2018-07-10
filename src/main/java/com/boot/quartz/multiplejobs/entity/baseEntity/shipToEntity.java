@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by zou on 2018/7/3.
  */
 @XmlRootElement(name = "shipTo")
-@XmlType(propOrder = {"companyName","postcode","address","loading", "contactEntityEntiy","locationRemarks"})
+@XmlType(propOrder = {"companyName","postcode","province","town","county","address","loading", "contactEntityEntiy","locationRemarks"})
 public class shipToEntity implements Serializable {
     private static final Long serialVersionUID=1L;
     private String companyName;
