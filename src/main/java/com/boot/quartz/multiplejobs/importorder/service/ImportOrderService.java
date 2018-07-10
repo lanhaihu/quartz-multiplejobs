@@ -50,7 +50,7 @@ public class ImportOrderService {
             strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
             try{
                 log.info("发送导入请求开始，原始数据为"+strRequestXml);
-                strResponseXml = HttpClient.send(url,strRequestXml);
+                strResponseXml = HttpClient.sendXmlByPut(url,strRequestXml);
                 log.info("导入请求响应结果为"+strResponseXml);
                 orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
                 strResponseCode = orderImportResponseEntity.getResponseCode();
