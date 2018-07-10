@@ -73,6 +73,7 @@ public class ImportOrderService {
                         String strImportStatus = orderResponseEntity.getImportStatus();
                         String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
                         String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                        log.info("strImportStatus="+strImportStatus);
                         if("NOT IMPORTED".equals(strImportStatus)){
                             //导入失败
 
