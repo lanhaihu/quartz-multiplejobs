@@ -57,12 +57,15 @@ public class ImportOrderService {
                 if("0".equals(strResponseCode)){
                     //客户验证失败
                     System.out.println("用户校验失败");
+                    log.error("用户校验失败");
                 }else if("1".equals(strResponseCode)){
                     //不支持的请求版本
                     System.out.println("不支持的请求版本");
+                    log.error("不支持的请求版本");
                 }else if("2".equals(strResponseCode)){
                     //请求中的导入订单过多
                     System.out.println("请求中的导入订单过多");
+                    log.error("请求中的导入订单过多");
                 }else{
                     //成功
                     List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();

@@ -1,13 +1,17 @@
 package com.boot.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by zhaos on 2018/7/5.
  */
+@Slf4j
 public class HttpClient {
     public static String send(String url,String xmlParam) throws Exception{
+        log.info("url="+url);
+        log.info("xmlParm="+xmlParam);
         int status = 0;
         RestTemplate client = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -20,6 +24,7 @@ public class HttpClient {
         if(status == 200){
             return response.getBody();
         }else{
+            log.error("请求异常");
             throw new Exception("请求异常");
         }
     }
