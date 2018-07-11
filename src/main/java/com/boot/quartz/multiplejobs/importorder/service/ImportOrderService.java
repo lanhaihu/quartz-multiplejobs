@@ -41,7 +41,7 @@ public class ImportOrderService {
         }else if("delivery".equals(type)){
             entitys = importOrderMapper.findDelistByOutputStatus("0");
         }else{
-            System.out.println("type没有匹配到");
+            log.error("type没有匹配到");
         }
 
         if(entitys.size() > 0){
@@ -50,19 +50,19 @@ public class ImportOrderService {
             strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
             try{
                 log.info("发送导入请求开始，原始数据为"+strRequestXml);
-                strResponseXml = HttpClient.send(url,strRequestXml);
+                strResponseXml = HttpClient.sendXmlByPut(url,strRequestXml);
                 log.info("导入请求响应结果为"+strResponseXml);
                 orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
                 strResponseCode = orderImportResponseEntity.getResponseCode();
                 if("0".equals(strResponseCode)){
                     //客户验证失败
-                    System.out.println("用户校验失败");
+                    log.error("用户校验失败");
                 }else if("1".equals(strResponseCode)){
                     //不支持的请求版本
-                    System.out.println("不支持的请求版本");
+                    log.error("不支持的请求版本");
                 }else if("2".equals(strResponseCode)){
                     //请求中的导入订单过多
-                    System.out.println("请求中的导入订单过多");
+                    log.error("请求中的导入订单过多");
                 }else{
                     //成功
                     List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
@@ -70,6 +70,7 @@ public class ImportOrderService {
                         String strImportStatus = orderResponseEntity.getImportStatus();
                         String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
                         String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                        log.info("strImportStatus="+strImportStatus);
                         if("NOT IMPORTED".equals(strImportStatus)){
                             //导入失败
 
@@ -86,7 +87,7 @@ public class ImportOrderService {
                             //已分配
                             updateStatus(type,cargoId);
                         }else{
-                            System.out.println("未知返回状态");
+                            log.error("未知返回状态");
                         }
                     }
                    /* ArrayList<String> ids = null;
@@ -110,7 +111,7 @@ public class ImportOrderService {
             importOrderMapper.updateDeliveryListByIds(id);
             importOrderMapper.updateDeliveryListBByCarGoIds(id);
         }else{
-            System.out.println("type没有匹配到");
+            log.error("type没有匹配到");
         }
     }
 
@@ -203,6 +204,9 @@ public class ImportOrderService {
             shipFrom.setContactEntityEntiy(shipFromContactEntity);
             shipFrom.setLoading(entity.getShipFrom_loading());
             shipFrom.setLocationRemarks(entity.getShipFrom_locationRemarks());
+            shipFrom.setCounty(entity.getShipFrom_county());
+            shipFrom.setProvince(entity.getShipFrom_province());
+            shipFrom.setTown(entity.getShipFrom_town());
             //shipFrom.setPostcode();
 
             //shipToContactEntity.setEmail();
@@ -216,6 +220,9 @@ public class ImportOrderService {
             shipTo.setContactEntityEntiy(shipToContactEntity);
             shipTo.setLoading(entity.getShipTo_loading());
             shipTo.setLocationRemarks(entity.getShipTo_locationRemarks());
+            shipTo.setCounty(entity.getShipTo_county());
+            shipTo.setProvince(entity.getShipTo_province());
+            shipTo.setTown(entity.getShipTo_town());
             //shipTo.setPostcode();
 
             timeSchedule.setDeliveryDate(entity.getDeliveryDate());
@@ -246,7 +253,7 @@ public class ImportOrderService {
             customFields.setCustomText17(entity.getCustomText17());
             customFields.setCustomText18(entity.getCustomText18());
 
-            transportMode.setTransportType("ETL");
+            transportMode.setTransportType("LTL");
             transportMode.setTruckType("2");
 
             orderInfoEntity  orderInfo = new orderInfoEntity();

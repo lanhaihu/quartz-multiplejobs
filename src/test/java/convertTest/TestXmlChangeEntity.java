@@ -7,7 +7,7 @@ import com.boot.quartz.multiplejobs.entity.baseEntity.customFieldEntity;
 import com.boot.util.HttpClient;
 import com.boot.util.XmlConverter;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * Created by zou on 2018/7/5.
  */
@@ -30,10 +30,10 @@ public class TestXmlChangeEntity {
          String xmls=XmlConverter.convertToXml(entityRequest);
          System.out.print("entityConvertTorequest is ok");
 
-//         String response= HttpClient.send()
+//         String response= HttpClient.sendXmlByPut()
           customFieldEntity testentiy=new customFieldEntity();
           try{
-              String response=HttpClient.send("https://demo.otms.cn/ws/orderImport",xmls);
+              String response=HttpClient.sendXmlByPut("https://demo.otms.cn/ws/orderImport",xmls);
              entityRespones= (OrderImportResponseEntity) XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,response);
           }catch (Exception e){
           }

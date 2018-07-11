@@ -9,11 +9,14 @@ import java.io.Serializable;
  * Created by zou on 2018/7/3.
  */
 @XmlRootElement(name = "shipTo")
-@XmlType(propOrder = {"companyName","postcode","address","loading", "contactEntityEntiy","locationRemarks"})
+@XmlType(propOrder = {"companyName","postcode","province","town","county","address","loading", "contactEntityEntiy","locationRemarks"})
 public class shipToEntity implements Serializable {
     private static final Long serialVersionUID=1L;
     private String companyName;
     private String postcode;
+    private String province;
+    private String town;
+    private String county;
     private String  address;
     private String loading;
     private contactEntity contactEntityEntiy;
@@ -83,5 +86,35 @@ public class shipToEntity implements Serializable {
 
     public void setLocationRemarks(String locationRemarks) {
         this.locationRemarks = locationRemarks;
+    }
+
+    @XmlElement(name = "province")
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+    @XmlElement(name = "town")
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    @XmlElement(name = "county")
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getLoading() {
+        return loading;
     }
 }

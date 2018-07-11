@@ -36,7 +36,11 @@ public class ImportOrderJob extends QuartzJobBean {
         }
         importOrderService.updateByIds(8,2);*/
 
-        importOrderService.startImportCargoList("cargo");
-        importOrderService.startImportCargoList("delivery");
+        try{
+            importOrderService.startImportCargoList("cargo");
+            importOrderService.startImportCargoList("delivery");
+        }catch (Throwable e){
+            log.error("执行定时器异常",e);
+        }
     }
 }

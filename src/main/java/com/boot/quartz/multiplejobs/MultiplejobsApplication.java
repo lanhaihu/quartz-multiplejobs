@@ -19,10 +19,9 @@ public class MultiplejobsApplication {
 	public static void main(String[] args) {
 		try{
 			ConfigurableApplicationContext context = SpringApplication.run(MultiplejobsApplication.class, args);
-
 		}catch (Exception e){
-			log.error("Env config Run："+e);
+			log.error("Env config Run：",e);
 			throw e;
 		}
-		}
+	}
 }
