@@ -68,24 +68,25 @@ public class ImportOrderService {
                     List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
                     for(orderResponseEntity orderResponseEntity : orderResponseList){
                         String strImportStatus = orderResponseEntity.getImportStatus();
-                        String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
-                        String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                        String billCode = orderResponseEntity.getClientReferenceNumber();
+                        //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
+                        //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
                         log.info("strImportStatus="+strImportStatus);
                         if("NOT IMPORTED".equals(strImportStatus)){
                             //导入失败
 
                         }else if("DRAFT".equals(strImportStatus)){
                             //草稿 (订单信息不全)
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else if("INBOX".equals(strImportStatus)){
                             //已导入
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else if("RELEASED".equals(strImportStatus)){
                             //已释放
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else if("DISPATCHED".equals(strImportStatus)){
                             //已分配
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else{
                             log.error("未知返回状态");
                         }

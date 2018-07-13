@@ -115,14 +115,14 @@
       ,B.EXPIRING_DATE customText17 -- 有效期至
       ,B.REMARKS customText18 -- 备注
     from CARGO_LIST A, CARGO_LIST_B B
-    where A.ID = B.CARGO_ID
+    where A.BILLCODE = B.CARGO_ID
      and B.OUTPUT_STATUS =0
      and A.output_status =0
     </select>
 
     <update id="updateCargoListByIds" parameterType="java.util.ArrayList">
         update CARGO_LIST set OUTPUT_STATUS = '1'
-        WHERE ID = #{cargoId}
+        WHERE BILLCODE = #{cargoId}
     </update>
 
     <update id="updateCargoListBByCarGoIds" parameterType="java.util.ArrayList">
@@ -241,14 +241,14 @@
       ,B.EXPIRING_DATE customText17 -- 有效期至
       ,B.REMARKS customText18 -- 备注
         from DELIVERY_ORDER A, DELIVERY_ORDER_B B
-        where A.ID = B.DELIVERY_ID
+        where A.billcode = B.DELIVERY_ID
         and B.OUTPUT_STATUS =0
         and A.output_status =0
     </select>
 
     <update id="updateDeliveryListByIds" parameterType="java.util.ArrayList">
         update DELIVERY_ORDER set OUTPUT_STATUS = '1'
-        WHERE ID = #{deliveryId}
+        WHERE billcode = #{deliveryId}
     </update>
 
     <update id="updateDeliveryListBByCarGoIds" parameterType="java.util.ArrayList">
