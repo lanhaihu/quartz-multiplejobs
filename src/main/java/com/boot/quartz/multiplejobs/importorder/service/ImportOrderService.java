@@ -69,12 +69,15 @@ public class ImportOrderService {
                     for(orderResponseEntity orderResponseEntity : orderResponseList){
                         String strImportStatus = orderResponseEntity.getImportStatus();
                         String billCode = orderResponseEntity.getClientReferenceNumber();
+
                         //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
                         //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
                         log.info("strImportStatus="+strImportStatus);
                         if("NOT IMPORTED".equals(strImportStatus)){
                             //导入失败
-
+                            List<responseCodeEntity> responseCodeList= orderResponseEntity.getResponseCodes();
+                            StringBuilder strBuilder = errorCodeConvert(billCode,responseCodeList);
+                            log.error(strBuilder.toString());
                         }else if("DRAFT".equals(strImportStatus)){
                             //草稿 (订单信息不全)
                             updateStatus(type,billCode);
@@ -115,6 +118,20 @@ public class ImportOrderService {
             log.error("type没有匹配到");
         }
     }
+
+
+    private StringBuilder errorCodeConvert(String billCode,List<responseCodeEntity> responseCodeList){
+        StringBuilder strbuilder = new StringBuilder();
+        if(responseCodeList != null){
+            for(responseCodeEntity entity : responseCodeList){
+                String code = entity.getCode();
+                String reason = ConstantInfoUtil.codeMapper(code);
+                strbuilder.append("billCode=" + billCode + ",resultCode=" + code + ",原因=" + reason + "\r\n");
+            }
+        }
+        return strbuilder;
+    }
+
 
 
     private ArrayList<String> getCarGoIdList(List<CargoListEntity> entitys){
@@ -317,4 +334,5 @@ public class ImportOrderService {
         }
         return result;
     }
+
 }
