@@ -154,7 +154,7 @@ public class ImportOrderService {
 
         shipToEntity shipTo = new shipToEntity();
         contactEntity shipToContactEntity = new contactEntity();
-        List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
+        //List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
         timeScheduleEntity timeSchedule = new timeScheduleEntity();
         cargoDetailsEntity cargoDetails = new cargoDetailsEntity();
         transportModeEntity transportMode = new transportModeEntity();
@@ -168,6 +168,7 @@ public class ImportOrderService {
         for(String billCode : billCodeList){
             CargoListEntity entity = new CargoListEntity();
             List<CargoListEntity> entityBList = new ArrayList<CargoListEntity>();
+            List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
 
             entity = getOneCargoListEntityByBillCode(entitys,billCode);
             entityBList = getCargoListBByBillCode(entitys,billCode);
