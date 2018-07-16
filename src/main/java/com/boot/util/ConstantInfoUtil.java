@@ -63,7 +63,7 @@ public class ConstantInfoUtil {
         String result = "";
         switch (code){
             case "1000" :	result = "客户代码未找到。";break;
-            case "1001" :	result = "无效的数据类型。";break;
+            case "1001" :	result = "无效的数据类型。可检查当前的电话号码格式是否正确（座机与手机格式应不同）";break;
             case "1002" :	result = "备用。";break;
             case "1003" :	result = "shipFromExternalId发货方外部代码未找到。";break;
             case "1004" :	result = "shipToExternalId收货方外部代码未找到。";break;
@@ -130,6 +130,7 @@ public class ConstantInfoUtil {
             case "1118" :	result = "发货方如果email里需要追踪信息的连接， Email 或者手机号是必填。订单不能导入。";break;
             case "1119" :	result = "收货方如果email里需要追踪信息的连接， Email 或者手机号是必填。订单不能导入。";break;
             case "1120" :	result = "收货点和发货点不能重复。";break;
+            default: result="当前响应CODE："+code+"无对应的映射值，请联系平台客服";
         }
         return result;
     }
