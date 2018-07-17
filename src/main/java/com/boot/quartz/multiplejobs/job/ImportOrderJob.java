@@ -20,6 +20,7 @@ public class ImportOrderJob extends QuartzJobBean {
     @Autowired
     private ImportOrderService importOrderService;
 
+    @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         /*System.out.println("EXECUTE JOB 1");
         String url = ConstantInfoUtil.getPassWord();
