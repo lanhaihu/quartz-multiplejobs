@@ -1,6 +1,7 @@
 package com.boot.quartz.multiplejobs.job;
 
 import com.boot.quartz.multiplejobs.importorder.service.ImportOrderService;
+import com.boot.util.ConstantInfoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -35,12 +36,18 @@ public class ImportOrderJob extends QuartzJobBean {
             System.out.println(emp.getReckon_unit_id());
         }
         importOrderService.updateByIds(8,2);*/
-
+        if(ConstantInfoUtil.importOrderRunningFlg.get()){
+            log.info("订单导入定时任务正在执行，本次跳过");
+            return ;
+        }
+        ConstantInfoUtil.importOrderRunningFlg.weakCompareAndSet(false,true);
         try{
             importOrderService.startImportCargoList("cargo");
             importOrderService.startImportCargoList("delivery");
         }catch (Throwable e){
             log.error("执行定时器异常",e);
+        }finally {
+            ConstantInfoUtil.importOrderRunningFlg.weakCompareAndSet(true,false);
         }
     }
 }

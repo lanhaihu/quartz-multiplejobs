@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by zhaos on 2018/7/7.
@@ -24,6 +25,8 @@ public class ConstantInfoUtil {
 
 
     private static String REQUESTURL;
+
+    public static AtomicBoolean importOrderRunningFlg = new AtomicBoolean(false);
 
     public static String getUser(){
         return USERNAME;
