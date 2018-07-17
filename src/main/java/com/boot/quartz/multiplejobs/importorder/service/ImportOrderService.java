@@ -159,30 +159,33 @@ public class ImportOrderService {
 
     private OrderImportRequestEntity dataLoad(List<CargoListEntity> entitys) {
         int i = 0;
-        int totalVolume = 0;
-        int totalWeight = 0;
+
         OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
 
         List<orderInfoEntity> orderInfoList = new ArrayList<orderInfoEntity>();
 
-        customFieldEntity customFields =  new customFieldEntity();
-        shipFromEntity shipFrom = new shipFromEntity();
-        contactEntity shipFromContactEntity = new contactEntity();
-
-        shipToEntity shipTo = new shipToEntity();
-        contactEntity shipToContactEntity = new contactEntity();
-        //List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
-        timeScheduleEntity timeSchedule = new timeScheduleEntity();
-        cargoDetailsEntity cargoDetails = new cargoDetailsEntity();
-        transportModeEntity transportMode = new transportModeEntity();
-
-        HashSet<String> billCodeList;
         orderImportRequestEntity.setLogin(ConstantInfoUtil.getUser());
         orderImportRequestEntity.setPassword(ConstantInfoUtil.getPassWord());
         orderImportRequestEntity.setVersion(ConstantInfoUtil.getVersion());
 
-        billCodeList = getBillCodeList(entitys);
+        HashSet<String> billCodeList = getBillCodeList(entitys);
+
         for(String billCode : billCodeList){
+            int totalVolume = 0;
+            int totalWeight = 0;
+            int totalQuantity=0;
+
+            customFieldEntity customFields =  new customFieldEntity();
+            shipFromEntity shipFrom = new shipFromEntity();
+            contactEntity shipFromContactEntity = new contactEntity();
+
+            shipToEntity shipTo = new shipToEntity();
+            contactEntity shipToContactEntity = new contactEntity();
+            //List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
+            timeScheduleEntity timeSchedule = new timeScheduleEntity();
+            cargoDetailsEntity cargoDetails = new cargoDetailsEntity();
+            transportModeEntity transportMode = new transportModeEntity();
+
             CargoListEntity entity = new CargoListEntity();
             List<CargoListEntity> entityBList = new ArrayList<CargoListEntity>();
             List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
@@ -190,11 +193,9 @@ public class ImportOrderService {
             entity = getOneCargoListEntityByBillCode(entitys,billCode);
             entityBList = getCargoListBByBillCode(entitys,billCode);
 
-            int totalQuantity=0;
-            totalVolume = 0;
-            totalWeight = 0;
+
             for(CargoListEntity entityB : entityBList){
-                totalQuantity+=entityB.getQuantity();
+                totalQuantity += entityB.getQuantity();
                 totalVolume += entityB.getVolume();
                 totalWeight += entityB.getUnitWeight();
                 orderLineEntity orderLine = new orderLineEntity();

@@ -118,6 +118,7 @@
     where A.BILLCODE = B.CARGO_ID
      and B.OUTPUT_STATUS =0
      and A.output_status =0
+     and A.type =1
     </select>
 
     <update id="updateCargoListByIds" parameterType="java.util.ArrayList">
@@ -244,6 +245,7 @@
         where A.billcode = B.DELIVERY_ID
         and B.OUTPUT_STATUS =0
         and A.output_status =0
+        and A.type =1
     </select>
 
     <update id="updateDeliveryListByIds" parameterType="java.util.ArrayList">
