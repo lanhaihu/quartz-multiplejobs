@@ -11,13 +11,15 @@ import java.util.List;
  */
 @Slf4j
 public class LogerRequestToDB {
+    private String filedName="third_response";
 
     public int loggerRequestToDb(String tableName, List<RecordsToDbEntity> recordsList){
-        int records=0;
+        int recordNum=0;
         if(recordsList!=null&&recordsList.size()>0){
             for(RecordsToDbEntity recordsToDbEntity :recordsList){
             //todo 保存至数据库 ,如果保存成功,
                 try{
+                    adjustFiledName(tableName);
                     //todo save 构建工厂方法，通过传不通的tableName，映射不同的保存字段
                 }catch (Exception e){
                     log.error("保存记录失败，原因为"+e);
@@ -25,6 +27,14 @@ public class LogerRequestToDB {
                 }
             }
         }
-        return records;
+        return recordNum;
+    }
+
+    private  String adjustFiledName(String tableName){
+        switch (tableName){
+            case"":this.filedName="";break;
+            default:this.filedName=filedName;
+        }
+        return filedName;
     }
 }

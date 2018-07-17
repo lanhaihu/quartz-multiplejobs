@@ -68,24 +68,28 @@ public class ImportOrderService {
                     List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
                     for(orderResponseEntity orderResponseEntity : orderResponseList){
                         String strImportStatus = orderResponseEntity.getImportStatus();
-                        String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
-                        String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                        String billCode = orderResponseEntity.getClientReferenceNumber();
+
+                        //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
+                        //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
                         log.info("strImportStatus="+strImportStatus);
                         if("NOT IMPORTED".equals(strImportStatus)){
                             //导入失败
-
+                            List<responseCodeEntity> responseCodeList= orderResponseEntity.getResponseCodes();
+                            StringBuilder strBuilder = errorCodeConvert(billCode,responseCodeList);
+                            log.error(strBuilder.toString());
                         }else if("DRAFT".equals(strImportStatus)){
                             //草稿 (订单信息不全)
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else if("INBOX".equals(strImportStatus)){
                             //已导入
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else if("RELEASED".equals(strImportStatus)){
                             //已释放
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else if("DISPATCHED".equals(strImportStatus)){
                             //已分配
-                            updateStatus(type,cargoId);
+                            updateStatus(type,billCode);
                         }else{
                             log.error("未知返回状态");
                         }
@@ -114,6 +118,20 @@ public class ImportOrderService {
             log.error("type没有匹配到");
         }
     }
+
+
+    private StringBuilder errorCodeConvert(String billCode,List<responseCodeEntity> responseCodeList){
+        StringBuilder strbuilder = new StringBuilder();
+        if(responseCodeList != null){
+            for(responseCodeEntity entity : responseCodeList){
+                String code = entity.getCode();
+                String reason = ConstantInfoUtil.codeMapper(code);
+                strbuilder.append("billCode=" + billCode + ",resultCode=" + code + ",原因=" + reason + "\r\n");
+            }
+        }
+        return strbuilder;
+    }
+
 
 
     private ArrayList<String> getCarGoIdList(List<CargoListEntity> entitys){
@@ -153,7 +171,7 @@ public class ImportOrderService {
 
         shipToEntity shipTo = new shipToEntity();
         contactEntity shipToContactEntity = new contactEntity();
-        List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
+        //List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
         timeScheduleEntity timeSchedule = new timeScheduleEntity();
         cargoDetailsEntity cargoDetails = new cargoDetailsEntity();
         transportModeEntity transportMode = new transportModeEntity();
@@ -167,6 +185,7 @@ public class ImportOrderService {
         for(String billCode : billCodeList){
             CargoListEntity entity = new CargoListEntity();
             List<CargoListEntity> entityBList = new ArrayList<CargoListEntity>();
+            List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
 
             entity = getOneCargoListEntityByBillCode(entitys,billCode);
             entityBList = getCargoListBByBillCode(entitys,billCode);
@@ -315,4 +334,5 @@ public class ImportOrderService {
         }
         return result;
     }
+
 }
