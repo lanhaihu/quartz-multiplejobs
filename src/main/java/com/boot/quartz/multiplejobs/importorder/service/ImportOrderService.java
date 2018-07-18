@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -41,14 +42,16 @@ public class ImportOrderService {
 
         if(entitys.size() > 0){
             String url = ConstantInfoUtil.getUrl();
-            List<List<CargoListEntity>> entitysArrayList = Lists.partition(entitys,ConstantInfoUtil.getSendMaxCount());
-            for(List<CargoListEntity> entitysList : entitysArrayList){
+            HashSet<String> billListSet = getBillCodeList(entitys);
+            List billList = Arrays.asList(billListSet);
+            List<List<String>> billListArray = Lists.partition(billList,ConstantInfoUtil.getSendMaxCount());
+            for(List<String> strBillList : billListArray){
                 OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
                 OrderImportResponseEntity orderImportResponseEntity = new OrderImportResponseEntity();
                 String strRequestXml = "";
                 String strResponseXml = "";
                 String strResponseCode = "";
-                orderImportRequestEntity = dataLoad(entitysList);
+                orderImportRequestEntity = dataLoad(strBillList,entitys);
                 strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
                 try{
                     log.info("发送导入请求开始，原始数据为"+strRequestXml);
@@ -160,7 +163,7 @@ public class ImportOrderService {
         return result;
     }
 
-    private OrderImportRequestEntity dataLoad(List<CargoListEntity> entitys) {
+    private OrderImportRequestEntity dataLoad(List<String> billCodeList,List<CargoListEntity> entitys) {
         int i = 0;
 
         OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
@@ -171,7 +174,7 @@ public class ImportOrderService {
         orderImportRequestEntity.setPassword(ConstantInfoUtil.getPassWord());
         orderImportRequestEntity.setVersion(ConstantInfoUtil.getVersion());
 
-        HashSet<String> billCodeList = getBillCodeList(entitys);
+        //HashSet<String> billCodeList = getBillCodeList(entitys);
 
         for(String billCode : billCodeList){
             int totalVolume = 0;
