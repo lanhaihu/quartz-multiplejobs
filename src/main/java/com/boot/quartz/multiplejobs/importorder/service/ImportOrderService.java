@@ -43,7 +43,7 @@ public class ImportOrderService {
         if(entitys.size() > 0){
             String url = ConstantInfoUtil.getUrl();
             HashSet<String> billListSet = getBillCodeList(entitys);
-            List billList = Arrays.asList(billListSet);
+            List billList = new ArrayList<>(billListSet);
             List<List<String>> billListArray = Lists.partition(billList,ConstantInfoUtil.getSendMaxCount());
             for(List<String> strBillList : billListArray){
                 OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
