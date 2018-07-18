@@ -35,6 +35,9 @@ public class SchedulerImportOrderService {
     @Value("${request.version}")
     String requestVersion;
 
+    @Value("${importOrder.sendMaxCount}")
+    int sendMaxCount;
+
     @Autowired
     SchedulerFactoryBean schedulerFactoryBean;
 
@@ -51,6 +54,7 @@ public class SchedulerImportOrderService {
         ConstantInfoUtil.setREQUESTVERSION(requestVersion);
         ConstantInfoUtil.setUSERNAME(userName);
         ConstantInfoUtil.setUSERPASSWORD(userPassword);
+        ConstantInfoUtil.setSendMaxCount(sendMaxCount);
 
         scheduleJob(ImportOrderJob.class, null,cron , "ImportOrderJob", "ImportOrderJobTrigger");
         //scheduleJob(ExampleJob1.class, null,cron , "ExampleJob1", "trigger1");

@@ -26,6 +26,19 @@ public class ConstantInfoUtil {
 
     private static String REQUESTURL;
 
+    private static int sendMaxCount;
+
+    public static int getSendMaxCount() {
+        if(sendMaxCount > 0){
+            return sendMaxCount;
+        }
+        return 10;
+    }
+
+    public static void setSendMaxCount(int maxCount) {
+        sendMaxCount = maxCount;
+    }
+
     public static AtomicBoolean importOrderRunningFlg = new AtomicBoolean(false);
 
     public static String getUser(){

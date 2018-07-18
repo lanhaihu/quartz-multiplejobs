@@ -8,6 +8,7 @@ import com.boot.quartz.multiplejobs.entity.baseEntity.*;
 import com.boot.util.ConstantInfoUtil;
 import com.boot.util.HttpClient;
 import com.boot.util.XmlConverter;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,6 @@ public class ImportOrderService {
         log.info("导入订单开始");
         log.info("type="+type);
         List<CargoListEntity> entitys = new ArrayList<CargoListEntity>();
-        OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
-        OrderImportResponseEntity orderImportResponseEntity = new OrderImportResponseEntity();
-
-        String strRequestXml = "";
-        String strResponseXml = "";
-        String strResponseCode = "";
 
         if("cargo".equals(type)){
             entitys = importOrderMapper.findByOutputStatus("0");
@@ -46,62 +41,70 @@ public class ImportOrderService {
 
         if(entitys.size() > 0){
             String url = ConstantInfoUtil.getUrl();
-            orderImportRequestEntity = dataLoad(entitys);
-            strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
-            try{
-                log.info("发送导入请求开始，原始数据为"+strRequestXml);
-                strResponseXml = HttpClient.sendXmlByPut(url,strRequestXml);
-                log.info("导入请求响应结果为"+strResponseXml);
-                orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
-                strResponseCode = orderImportResponseEntity.getResponseCode();
-                if("0".equals(strResponseCode)){
-                    //客户验证失败
-                    log.error("用户校验失败");
-                }else if("1".equals(strResponseCode)){
-                    //不支持的请求版本
-                    log.error("不支持的请求版本");
-                }else if("2".equals(strResponseCode)){
-                    //请求中的导入订单过多
-                    log.error("请求中的导入订单过多");
-                }else{
-                    //成功
-                    List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
-                    for(orderResponseEntity orderResponseEntity : orderResponseList){
-                        String strImportStatus = orderResponseEntity.getImportStatus();
-                        String billCode = orderResponseEntity.getClientReferenceNumber();
+            List<List<CargoListEntity>> entitysArrayList = Lists.partition(entitys,ConstantInfoUtil.getSendMaxCount());
+            for(List<CargoListEntity> entitysList : entitysArrayList){
+                OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
+                OrderImportResponseEntity orderImportResponseEntity = new OrderImportResponseEntity();
+                String strRequestXml = "";
+                String strResponseXml = "";
+                String strResponseCode = "";
+                orderImportRequestEntity = dataLoad(entitysList);
+                strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
+                try{
+                    log.info("发送导入请求开始，原始数据为"+strRequestXml);
+                    strResponseXml = HttpClient.sendXmlByPut(url,strRequestXml);
+                    log.info("导入请求响应结果为"+strResponseXml);
+                    orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
+                    strResponseCode = orderImportResponseEntity.getResponseCode();
+                    if("0".equals(strResponseCode)){
+                        //客户验证失败
+                        log.error("用户校验失败");
+                    }else if("1".equals(strResponseCode)){
+                        //不支持的请求版本
+                        log.error("不支持的请求版本");
+                    }else if("2".equals(strResponseCode)){
+                        //请求中的导入订单过多
+                        log.error("请求中的导入订单过多");
+                    }else{
+                        //成功
+                        List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
+                        for(orderResponseEntity orderResponseEntity : orderResponseList){
+                            String strImportStatus = orderResponseEntity.getImportStatus();
+                            String billCode = orderResponseEntity.getClientReferenceNumber();
 
-                        //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
-                        //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
-                        log.info("strImportStatus="+strImportStatus);
-                        if("NOT IMPORTED".equals(strImportStatus)){
-                            //导入失败
-                            List<responseCodeEntity> responseCodeList= orderResponseEntity.getResponseCodes();
-                            StringBuilder strBuilder = errorCodeConvert(billCode,responseCodeList);
-                            log.error(strBuilder.toString());
-                        }else if("DRAFT".equals(strImportStatus)){
-                            //草稿 (订单信息不全)
-                            updateStatus(type,billCode);
-                        }else if("INBOX".equals(strImportStatus)){
-                            //已导入
-                            updateStatus(type,billCode);
-                        }else if("RELEASED".equals(strImportStatus)){
-                            //已释放
-                            updateStatus(type,billCode);
-                        }else if("DISPATCHED".equals(strImportStatus)){
-                            //已分配
-                            updateStatus(type,billCode);
-                        }else{
-                            log.error("未知返回状态");
+                            //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
+                            //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                            log.info("strImportStatus="+strImportStatus);
+                            if("NOT IMPORTED".equals(strImportStatus)){
+                                //导入失败
+                                List<responseCodeEntity> responseCodeList= orderResponseEntity.getResponseCodes();
+                                StringBuilder strBuilder = errorCodeConvert(billCode,responseCodeList);
+                                log.error(strBuilder.toString());
+                            }else if("DRAFT".equals(strImportStatus)){
+                                //草稿 (订单信息不全)
+                                updateStatus(type,billCode);
+                            }else if("INBOX".equals(strImportStatus)){
+                                //已导入
+                                updateStatus(type,billCode);
+                            }else if("RELEASED".equals(strImportStatus)){
+                                //已释放
+                                updateStatus(type,billCode);
+                            }else if("DISPATCHED".equals(strImportStatus)){
+                                //已分配
+                                updateStatus(type,billCode);
+                            }else{
+                                log.error("未知返回状态");
+                            }
                         }
-                    }
                    /* ArrayList<String> ids = null;
                     ids = getCarGoIdList(entitys);
                     importOrderMapper.updateCargoListByIds(ids);
                     importOrderMapper.updateCargoListBByCarGoIds(ids);*/
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                    log.error("请求异常",e);
                 }
-            }catch(Exception e){
-                e.printStackTrace();
-                log.error("请求异常",e);
             }
         }
         log.info("导入订单结束");
