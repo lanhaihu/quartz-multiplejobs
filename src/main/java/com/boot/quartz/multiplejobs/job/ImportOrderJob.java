@@ -21,7 +21,7 @@ public class ImportOrderJob extends QuartzJobBean {
     private ImportOrderService importOrderService;
 
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException  {
         /*System.out.println("EXECUTE JOB 1");
         String url = ConstantInfoUtil.getPassWord();
         System.out.println(url);
@@ -45,10 +45,15 @@ public class ImportOrderJob extends QuartzJobBean {
         try{
             importOrderService.startImportCargoList("cargo");
             importOrderService.startImportCargoList("delivery");
-        }catch (Throwable e){
-            log.error("执行定时器异常",e);
-        }finally {
+            //当任务执行完后，将执行状态从true，改为false
             ConstantInfoUtil.importOrderRunningFlg.weakCompareAndSet(true,false);
+        }catch (Throwable e){
+            log.error("导入接口定时器执行异常",e);
+            //任务执行异常时，修正执行状态,importOrderRunningFlg设置的主要目的为了防止其他定时任务依赖于
+            //此任务执行结束后，方可执行
+            ConstantInfoUtil.importOrderRunningFlg.weakCompareAndSet(true,false);
+        }finally {
+
         }
     }
 }
