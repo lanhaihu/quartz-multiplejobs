@@ -28,6 +28,11 @@ public class ConstantInfoUtil {
 
     private static int sendMaxCount;
 
+    private static  String  volumeFormat;
+
+    private static String weightFormat;
+
+
     public static int getSendMaxCount() {
         if(sendMaxCount > 0){
             return sendMaxCount;
@@ -55,6 +60,21 @@ public class ConstantInfoUtil {
 
     public static String getUrl() { return REQUESTURL;}
 
+    public static String getVolumeFormat() {
+        return volumeFormat;
+    }
+
+    public static void setVolumeFormat(String volumeFormat) {
+        ConstantInfoUtil.volumeFormat = volumeFormat;
+    }
+
+    public static String getWeightFormat() {
+        return weightFormat;
+    }
+
+    public static void setWeightFormat(String weightFormat) {
+        ConstantInfoUtil.weightFormat = weightFormat;
+    }
 
     public static void setUSERNAME(String uSERNAME) {
         USERNAME = uSERNAME;

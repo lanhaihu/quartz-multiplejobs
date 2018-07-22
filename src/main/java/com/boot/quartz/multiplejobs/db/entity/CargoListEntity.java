@@ -42,9 +42,10 @@ public class CargoListEntity extends BaseEntity {
     String productName; // 物品名称
     String productCode; // 物品编码
     String unitType; // 计量单位
-    int volume; // 体积
-    int unitWeight; // 单品重量
+    float volume; // 体积
+    float unitWeight; // 单品重量
     int quantity; // 数量
+
     String customText1; // 销售单号
     Date customText2; //过账时限
     String customText3; //业务员
@@ -82,6 +83,22 @@ public class CargoListEntity extends BaseEntity {
 
     public void setClientReferenceNumber(String clientReferenceNumber) {
         this.clientReferenceNumber = clientReferenceNumber;
+    }
+
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    public float getUnitWeight() {
+        return unitWeight;
+    }
+
+    public void setUnitWeight(float unitWeight) {
+        this.unitWeight = unitWeight;
     }
 
     public String getAutoProcessMode() {
@@ -346,22 +363,6 @@ public class CargoListEntity extends BaseEntity {
 
     public void setUnitType(String unitType) {
         this.unitType = unitType;
-    }
-
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
-    public int getUnitWeight() {
-        return unitWeight;
-    }
-
-    public void setUnitWeight(int unitWeight) {
-        this.unitWeight = unitWeight;
     }
 
     public int getQuantity() {

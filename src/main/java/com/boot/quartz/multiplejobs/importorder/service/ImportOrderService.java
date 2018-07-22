@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -175,10 +176,12 @@ public class ImportOrderService {
         orderImportRequestEntity.setVersion(ConstantInfoUtil.getVersion());
 
         //HashSet<String> billCodeList = getBillCodeList(entitys);
-
+        //重量保留3位，体积保留六位
+        DecimalFormat weightForm  =   new  DecimalFormat(ConstantInfoUtil.getWeightFormat());
+        DecimalFormat volumForm  =   new  DecimalFormat(ConstantInfoUtil.getVolumeFormat());
         for(String billCode : billCodeList){
-            int totalVolume = 0;
-            int totalWeight = 0;
+            float totalVolume = 0;
+            float totalWeight = 0;
             int totalQuantity=0;
 
             customFieldEntity customFields =  new customFieldEntity();
@@ -260,8 +263,11 @@ public class ImportOrderService {
 
             cargoDetails.setCargoType("1");
             cargoDetails.setPackageType("A");
-            cargoDetails.setTotalVolume(totalVolume + "");
-            cargoDetails.setTotalWeight(totalWeight + "");
+
+            //体积保存六位
+            cargoDetails.setTotalVolume(volumForm.format(totalVolume));
+            //重量保存三位
+            cargoDetails.setTotalWeight(weightForm.format(totalWeight));
             //添加总数
             cargoDetails.setTotalQuantity(totalQuantity+"");
 
