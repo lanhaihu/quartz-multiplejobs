@@ -285,6 +285,26 @@ public class ImportOrderService {
             customFields.setCustomText17(entity.getCustomText17());
             customFields.setCustomText18(entity.getCustomText18());
 
+//                  A. "MATERIAL_TYPE" customText10 -- 物料类型(0成品、1配方颗粒)
+//                   ,A."TAXPAYER_CODE" customText11 -- 纳税人识别编码
+//                   ,A."CHANNEL_CODE" customText12 -- 渠道编码
+//                   ,A."CHANNEL_NAME" customText13 – 渠道名称
+//                   ,A."BRANCH_OFFICE" customText14 -- 办事处
+//                   ,A."WAREHOUSE" customText19 – 库房
+//                   ,A."RESERVED1" customText20 -- （预留1）
+//                   ,A."RESERVED2" customText21 -- （预留2）
+//                   ,A."RESERVED3" customText22 -- （预留3）
+            customFields.setCustomText10(entity.getCustomText10());
+            customFields.setCustomText11(entity.getCustomText11());
+            customFields.setCustomText12(entity.getCustomText12());
+            customFields.setCustomText13(entity.getCustomText13());
+            customFields.setCustomText14(entity.getCustomText14());
+            customFields.setCustomText19(entity.getCustomText19());
+            customFields.setCustomText20(entity.getCustomText20());
+            customFields.setCustomText21(entity.getCustomText21());
+            customFields.setCustomText22(entity.getCustomText22());
+
+
             transportMode.setTransportType("LTL");
             transportMode.setTruckType("2");
 

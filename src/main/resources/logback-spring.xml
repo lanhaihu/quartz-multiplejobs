@@ -33,7 +33,7 @@
 
 <fileNamePattern>${FILE_PATH}</fileNamePattern>
 
-<!-- keep 15 days' worth of history -->
+<!-- keep 30 days' worth of history -->
 <maxHistory>30</maxHistory>
 
 <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">

@@ -60,6 +60,17 @@ public class CargoListEntity extends BaseEntity {
     Date customText17; //有效期至
     String customText18; //备注
 
+    String customText10;// -- 物料类型(0成品、1配方颗粒)
+    String customText11;// -- 纳税人识别编码
+    String  customText12 ;//-- 渠道编码
+    String  customText13 ;//– 渠道名称
+    String customText14;// -- 办事处
+    String  customText19 ;//– 库房
+    String  customText20;// -- （预留1）
+    String  customText21;// -- （预留2）
+    String  customText22;// -- （预留3）
+
+
 
     public String getErpNumber() {
         return erpNumber;
@@ -475,5 +486,77 @@ public class CargoListEntity extends BaseEntity {
 
     public void setCustomText18(String customText18) {
         this.customText18 = customText18;
+    }
+
+    public String getCustomText10() {
+        return customText10;
+    }
+
+    public void setCustomText10(String customText10) {
+        this.customText10 = customText10;
+    }
+
+    public String getCustomText11() {
+        return customText11;
+    }
+
+    public void setCustomText11(String customText11) {
+        this.customText11 = customText11;
+    }
+
+    public String getCustomText12() {
+        return customText12;
+    }
+
+    public void setCustomText12(String customText12) {
+        this.customText12 = customText12;
+    }
+
+    public String getCustomText13() {
+        return customText13;
+    }
+
+    public void setCustomText13(String customText13) {
+        this.customText13 = customText13;
+    }
+
+    public String getCustomText14() {
+        return customText14;
+    }
+
+    public void setCustomText14(String customText14) {
+        this.customText14 = customText14;
+    }
+
+    public String getCustomText19() {
+        return customText19;
+    }
+
+    public void setCustomText19(String customText19) {
+        this.customText19 = customText19;
+    }
+
+    public String getCustomText20() {
+        return customText20;
+    }
+
+    public void setCustomText20(String customText20) {
+        this.customText20 = customText20;
+    }
+
+    public String getCustomText21() {
+        return customText21;
+    }
+
+    public void setCustomText21(String customText21) {
+        this.customText21 = customText21;
+    }
+
+    public String getCustomText22() {
+        return customText22;
+    }
+
+    public void setCustomText22(String customText22) {
+        this.customText22 = customText22;
     }
 }
