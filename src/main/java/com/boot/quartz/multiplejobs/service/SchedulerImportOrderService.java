@@ -35,6 +35,15 @@ public class SchedulerImportOrderService {
     @Value("${request.version}")
     String requestVersion;
 
+    @Value("${importOrder.sendMaxCount}")
+    int sendMaxCount;
+
+    @Value("${importOrder.volumeFormat}")
+    String volumeFormat;
+
+    @Value("${importOrder.weightFormat}")
+    String weightFormat;
+
     @Autowired
     SchedulerFactoryBean schedulerFactoryBean;
 
@@ -51,7 +60,17 @@ public class SchedulerImportOrderService {
         ConstantInfoUtil.setREQUESTVERSION(requestVersion);
         ConstantInfoUtil.setUSERNAME(userName);
         ConstantInfoUtil.setUSERPASSWORD(userPassword);
-
+        ConstantInfoUtil.setSendMaxCount(sendMaxCount);
+//        importOrder.weightFormat="##0.000";
+//        importOrder.volumeFormat="##0.000000";
+        if("".equals(volumeFormat)){
+            volumeFormat="##0.000000";
+        }
+        if("".equals(weightFormat)){
+            weightFormat="##0.000";
+        }
+        ConstantInfoUtil.setVolumeFormat(volumeFormat);
+        ConstantInfoUtil.setWeightFormat(weightFormat);
         scheduleJob(ImportOrderJob.class, null,cron , "ImportOrderJob", "ImportOrderJobTrigger");
         //scheduleJob(ExampleJob1.class, null,cron , "ExampleJob1", "trigger1");
     }

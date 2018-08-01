@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by zhaos on 2018/7/7.
@@ -25,6 +26,26 @@ public class ConstantInfoUtil {
 
     private static String REQUESTURL;
 
+    private static int sendMaxCount;
+
+    private static  String  volumeFormat;
+
+    private static String weightFormat;
+
+
+    public static int getSendMaxCount() {
+        if(sendMaxCount > 0){
+            return sendMaxCount;
+        }
+        return 10;
+    }
+
+    public static void setSendMaxCount(int maxCount) {
+        sendMaxCount = maxCount;
+    }
+
+    public static AtomicBoolean importOrderRunningFlg = new AtomicBoolean(false);
+
     public static String getUser(){
         return USERNAME;
     }
@@ -39,6 +60,21 @@ public class ConstantInfoUtil {
 
     public static String getUrl() { return REQUESTURL;}
 
+    public static String getVolumeFormat() {
+        return volumeFormat;
+    }
+
+    public static void setVolumeFormat(String volumeFormat) {
+        ConstantInfoUtil.volumeFormat = volumeFormat;
+    }
+
+    public static String getWeightFormat() {
+        return weightFormat;
+    }
+
+    public static void setWeightFormat(String weightFormat) {
+        ConstantInfoUtil.weightFormat = weightFormat;
+    }
 
     public static void setUSERNAME(String uSERNAME) {
         USERNAME = uSERNAME;

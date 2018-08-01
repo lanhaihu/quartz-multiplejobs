@@ -43,6 +43,8 @@
         <result property="unitType" column="unitType"/>
         <result property="volume" column="volume"/>
         <result property="unitWeight" column="unitWeight"/>
+        <result property="sumVolume" column="sumVolume"/>
+        <result property="sumWeight" column="sumWeight"/>
         <result property="quantity" column="quantity"/>
         <result property="customText1" column="customText1"/>
         <result property="customText2" column="customText2"/>
@@ -57,6 +59,17 @@
         <result property="customText16" column="customText16"/>
         <result property="customText17" column="customText17"/>
         <result property="customText18" column="customText18"/>
+        <!--新增字段开始-->
+        <result property="customText10" column="customText10"/>
+        <result property="customText11" column="customText11"/>
+        <result property="customText12" column="customText12"/>
+        <result property="customText13" column="customText13"/>
+        <result property="customText14" column="customText14"/>
+        <result property="customText19" column="customText19"/>
+        <result property="customText20" column="customText20"/>
+        <result property="customText21" column="customText21"/>
+        <result property="customText22" column="customText22"/>
+        <!--新增字段结束-->
     </resultMap>
 
 
@@ -65,7 +78,7 @@
       ,A.BILLCODE erpNumber -- ERP/WMS单据编号
       ,A.org_code branch -- 地区
       ,A.BILLCODE clientReferenceNumber -- 外部查询单号
-      ,1 autoProcessMode -- 订单处理模式
+      ,3 autoProcessMode -- 订单处理模式
       ,A.CARRIER_ID vendorcode -- 承运商在oTMS系统中的公司代码
       ,A.SHIPPER shipFrom_companyName --发货方
       ,A.SHPR_PROVINCE shipFrom_province -- 发货省份
@@ -100,6 +113,8 @@
       ,B.UNIT unitType -- 计量单位
       ,B.VOLUME -- 体积
       ,B.WEIGHT unitWeight -- 单品重量
+      ,B.sumvolume sumVolume --
+      ,B.sumweight sumWeight --
       ,B.QUANTITY quantity -- 数量
       ,A.SALE_BILLCODE customText1 -- 销售单号
       ,A.ORDERTIME customText2 -- 过账时限
@@ -114,10 +129,21 @@
       ,B.RELEASE_DATE customText16 -- 生产日期
       ,B.EXPIRING_DATE customText17 -- 有效期至
       ,B.REMARKS customText18 -- 备注
+      ,A.MATERIAL_TYPE customText10 -- 物料类型(0成品、1配方颗粒)
+     ,A.TAXPAYER_CODE customText11 -- 纳税人识别编码
+    ,A.CHANNEL_CODE customText12 -- 渠道编码
+    ,A.CHANNEL_NAME customText13 -- 渠道名称
+    ,A.BRANCH_OFFICE customText14 -- 办事处
+    ,A.WAREHOUSE customText19 -- 库房
+    ,A.RESERVED1 customText20 -- （预留1）
+    ,A.RESERVED2 customText21 -- （预留2）
+    ,A.RESERVED3 customText22 -- （预留3）
+
     from CARGO_LIST A, CARGO_LIST_B B
-    where A.BILLCODE = B.CARGO_ID
+    where A.ID = B.CARGO_ID
      and B.OUTPUT_STATUS =0
      and A.output_status =0
+     and A.data_status =1
     </select>
 
     <update id="updateCargoListByIds" parameterType="java.util.ArrayList">
@@ -131,67 +157,12 @@
     </update>
 
 
-    <resultMap id="deliverymap" type="com.boot.quartz.multiplejobs.db.entity.DeliverListEntiy">
-        <result property="id" column="id"/>
-        <result property="erpNumber" column="erpNumber"/>
-        <result property="branch" column="branch"/>
-        <result property="clientReferenceNumber" column="clientReferenceNumber"/>
-        <result property="autoProcessMode" column="autoProcessMode"/>
-        <result property="vendorcode" column="vendorcode"/>
-        <result property="shipFrom_companyName" column="shipFrom_companyName"/>
-        <result property="shipFrom_province" column="shipFrom_province"/>
-        <result property="shipFrom_town" column="shipFrom_town"/>
-        <result property="shipFrom_county" column="shipFrom_county"/>
-        <result property="shipFrom_address" column="shipFrom_address"/>
-        <result property="shipFrom_loading" column="shipFrom_loading"/>
-        <result property="shipFrom_contact_name" column="shipFrom_contact_name"/>
-        <result property="shipFrom_contact_phone" column="shipFrom_contact_phone"/>
-        <result property="shipFrom_contact_phoneAreaCode" column="shipFrom_contact_phoneAreaCode"/>
-        <result property="shipFrom_contact_mobile" column="shipFrom_contact_mobile"/>
-        <result property="shipFrom_locationRemarks" column="shipFrom_locationRemarks"/>
-        <result property="shipTo_companyName" column="shipTo_companyName"/>
-        <result property="shipTo_province" column="shipTo_province"/>
-        <result property="shipTo_town" column="shipTo_town"/>
-        <result property="shipTo_county" column="shipTo_county"/>
-        <result property="shipTo_address" column="shipTo_address"/>
-        <result property="shipTo_loading" column="shipTo_loading"/>
-        <result property="shipTo_contact_name" column="shipTo_contact_name"/>
-        <result property="shipTo_contact_phone" column="shipTo_contact_phone"/>
-        <result property="shipTo_contact_phoneAreaCode" column="shipTo_contact_phoneAreaCode"/>
-        <result property="shipTo_contact_mobile" column="shipTo_contact_mobile"/>
-        <result property="shipTo_locationRemarks" column="shipTo_locationRemarks"/>
-        <result property="pickupDate" column="pickupDate"/>
-        <result property="pickupTimeFrom" column="pickupTimeFrom"/>
-        <result property="pickupTimeTo" column="pickupTimeTo"/>
-        <result property="deliveryDate" column="deliveryDate"/>
-        <result property="deliveryTimeFrom" column="deliveryTimeFrom"/>
-        <result property="deliveryTimeTo" column="deliveryTimeTo"/>
-        <result property="productName" column="productName"/>
-        <result property="productCode" column="productCode"/>
-        <result property="unitType" column="unitType"/>
-        <result property="volume" column="volume"/>
-        <result property="unitWeight" column="unitWeight"/>
-        <result property="quantity" column="quantity"/>
-        <result property="customText1" column="customText1"/>
-        <result property="customText2" column="customText2"/>
-        <result property="customText3" column="customText3"/>
-        <result property="customText4" column="customText4"/>
-        <result property="customText5" column="customText5"/>
-        <result property="customText6" column="customText6"/>
-        <result property="customText7" column="customText7"/>
-        <result property="customText8" column="customText8"/>
-        <result property="customText9" column="customText9"/>
-        <result property="customText15" column="customText15"/>
-        <result property="customText16" column="customText16"/>
-        <result property="customText17" column="customText17"/>
-        <result property="customText18" column="customText18"/>
-    </resultMap>
     <select id="findDelistByOutputStatus" resultMap="cargomap">
         select A.ID
         ,A.BILLCODE erpNumber -- ERP/WMS单据编号
         ,A.org_code branch -- 地区
         ,A.BILLCODE clientReferenceNumber -- 外部查询单号
-        ,1 autoProcessMode -- 订单处理模式
+        ,3 autoProcessMode -- 订单处理模式
         ,A.CARRIER_ID vendorcode -- 承运商在oTMS系统中的公司代码
         ,A.SHIPPER shipFrom_companyName --发货方
         ,A.SHPR_PROVINCE shipFrom_province -- 发货省份
@@ -226,6 +197,8 @@
         ,B.UNIT unitType -- 计量单位
         ,B.VOLUME -- 体积
         ,B.WEIGHT unitWeight -- 单品重量
+        ,B.sumvolume sumVolume --
+        ,B.sumweight sumWeight --
         ,B.QUANTITY quantity -- 数量
         ,A.SALE_BILLCODE customText1 -- 销售单号
       ,A.ORDERTIME customText2 -- 过账时限
@@ -240,10 +213,20 @@
       ,B.RELEASE_DATE customText16 -- 生产日期
       ,B.EXPIRING_DATE customText17 -- 有效期至
       ,B.REMARKS customText18 -- 备注
+      ,A.MATERIAL_TYPE customText10 -- 物料类型(0成品、1配方颗粒)
+      ,A.TAXPAYER_CODE customText11 -- 纳税人识别编码
+      ,A.CHANNEL_CODE customText12 -- 渠道编码
+      ,A.CHANNEL_NAME customText13 -- 渠道名称
+      ,A.BRANCH_OFFICE customText14 -- 办事处
+      ,A.WAREHOUSE customText19 -- 库房
+      ,A.RESERVED1 customText20 -- （预留1）
+      ,A.RESERVED2 customText21 -- （预留2）
+      ,A.RESERVED3 customText22 -- （预留3）
         from DELIVERY_ORDER A, DELIVERY_ORDER_B B
-        where A.billcode = B.DELIVERY_ID
+        where A.ID = B.DELIVERY_ID
         and B.OUTPUT_STATUS =0
         and A.output_status =0
+        and A.data_status =1
     </select>
 
     <update id="updateDeliveryListByIds" parameterType="java.util.ArrayList">

@@ -33,12 +33,12 @@
 
 <fileNamePattern>${FILE_PATH}</fileNamePattern>
 
-<!-- keep 15 days' worth of history -->
+<!-- keep 30 days' worth of history -->
 <maxHistory>30</maxHistory>
 
 <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 <!-- 日志文件的最大大小 -->
-<maxFileSize>2MB</maxFileSize>
+<maxFileSize>50MB</maxFileSize>
 </timeBasedFileNamingAndTriggeringPolicy>
 
 <!-- 超出删除老文件 -->

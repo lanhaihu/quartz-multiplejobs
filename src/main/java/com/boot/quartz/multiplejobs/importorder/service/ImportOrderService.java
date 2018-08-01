@@ -8,11 +8,14 @@ import com.boot.quartz.multiplejobs.entity.baseEntity.*;
 import com.boot.util.ConstantInfoUtil;
 import com.boot.util.HttpClient;
 import com.boot.util.XmlConverter;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -29,12 +32,6 @@ public class ImportOrderService {
         log.info("导入订单开始");
         log.info("type="+type);
         List<CargoListEntity> entitys = new ArrayList<CargoListEntity>();
-        OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
-        OrderImportResponseEntity orderImportResponseEntity = new OrderImportResponseEntity();
-
-        String strRequestXml = "";
-        String strResponseXml = "";
-        String strResponseCode = "";
 
         if("cargo".equals(type)){
             entitys = importOrderMapper.findByOutputStatus("0");
@@ -46,62 +43,72 @@ public class ImportOrderService {
 
         if(entitys.size() > 0){
             String url = ConstantInfoUtil.getUrl();
-            orderImportRequestEntity = dataLoad(entitys);
-            strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
-            try{
-                log.info("发送导入请求开始，原始数据为"+strRequestXml);
-                strResponseXml = HttpClient.sendXmlByPut(url,strRequestXml);
-                log.info("导入请求响应结果为"+strResponseXml);
-                orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
-                strResponseCode = orderImportResponseEntity.getResponseCode();
-                if("0".equals(strResponseCode)){
-                    //客户验证失败
-                    log.error("用户校验失败");
-                }else if("1".equals(strResponseCode)){
-                    //不支持的请求版本
-                    log.error("不支持的请求版本");
-                }else if("2".equals(strResponseCode)){
-                    //请求中的导入订单过多
-                    log.error("请求中的导入订单过多");
-                }else{
-                    //成功
-                    List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
-                    for(orderResponseEntity orderResponseEntity : orderResponseList){
-                        String strImportStatus = orderResponseEntity.getImportStatus();
-                        String billCode = orderResponseEntity.getClientReferenceNumber();
+            HashSet<String> billListSet = getBillCodeList(entitys);
+            List billList = new ArrayList<>(billListSet);
+            List<List<String>> billListArray = Lists.partition(billList,ConstantInfoUtil.getSendMaxCount());
+            for(List<String> strBillList : billListArray){
+                OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
+                OrderImportResponseEntity orderImportResponseEntity = new OrderImportResponseEntity();
+                String strRequestXml = "";
+                String strResponseXml = "";
+                String strResponseCode = "";
+                orderImportRequestEntity = dataLoad(strBillList,entitys);
+                strRequestXml = XmlConverter.convertToXml(orderImportRequestEntity);
+                try{
+                    log.info("发送导入请求开始，原始数据为"+strRequestXml);
+                    strResponseXml = HttpClient.sendXmlByPut(url,strRequestXml);
+                    log.info("导入请求响应结果为"+strResponseXml);
+                    orderImportResponseEntity = (OrderImportResponseEntity)XmlConverter.convertXmlStrToObject(OrderImportResponseEntity.class,strResponseXml);
+                    strResponseCode = orderImportResponseEntity.getResponseCode();
+                    if("0".equals(strResponseCode)){
+                        //客户验证失败
+                        log.error("用户校验失败");
+                    }else if("1".equals(strResponseCode)){
+                        //不支持的请求版本
+                        log.error("不支持的请求版本");
+                    }else if("2".equals(strResponseCode)){
+                        //请求中的导入订单过多
+                        log.error("请求中的导入订单过多");
+                    }else{
+                        //成功
+                        List<orderResponseEntity> orderResponseList = orderImportResponseEntity.getOrders();
+                        for(orderResponseEntity orderResponseEntity : orderResponseList){
+                            String strImportStatus = orderResponseEntity.getImportStatus();
+                            String billCode = orderResponseEntity.getClientReferenceNumber();
 
-                        //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
-                        //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
-                        log.info("strImportStatus="+strImportStatus);
-                        if("NOT IMPORTED".equals(strImportStatus)){
-                            //导入失败
-                            List<responseCodeEntity> responseCodeList= orderResponseEntity.getResponseCodes();
-                            StringBuilder strBuilder = errorCodeConvert(billCode,responseCodeList);
-                            log.error(strBuilder.toString());
-                        }else if("DRAFT".equals(strImportStatus)){
-                            //草稿 (订单信息不全)
-                            updateStatus(type,billCode);
-                        }else if("INBOX".equals(strImportStatus)){
-                            //已导入
-                            updateStatus(type,billCode);
-                        }else if("RELEASED".equals(strImportStatus)){
-                            //已释放
-                            updateStatus(type,billCode);
-                        }else if("DISPATCHED".equals(strImportStatus)){
-                            //已分配
-                            updateStatus(type,billCode);
-                        }else{
-                            log.error("未知返回状态");
+                            //String strClientReferenceNumber = orderResponseEntity.getClientReferenceNumber();
+                            //String cargoId = getCarGoidByBillCode(entitys,strClientReferenceNumber);
+                            log.info("strImportStatus="+strImportStatus);
+                            if("NOT IMPORTED".equals(strImportStatus)){
+                                //导入失败
+                                List<responseCodeEntity> responseCodeList= orderResponseEntity.getResponseCodes();
+                                StringBuilder strBuilder = errorCodeConvert(billCode,responseCodeList);
+                                log.error(strBuilder.toString());
+                            }else if("DRAFT".equals(strImportStatus)){
+                                //草稿 (订单信息不全)
+                                updateStatus(type,billCode);
+                            }else if("INBOX".equals(strImportStatus)){
+                                //已导入
+                                updateStatus(type,billCode);
+                            }else if("RELEASED".equals(strImportStatus)){
+                                //已释放
+                                updateStatus(type,billCode);
+                            }else if("DISPATCHED".equals(strImportStatus)){
+                                //已分配
+                                updateStatus(type,billCode);
+                            }else{
+                                log.error("未知返回状态");
+                            }
                         }
-                    }
                    /* ArrayList<String> ids = null;
                     ids = getCarGoIdList(entitys);
                     importOrderMapper.updateCargoListByIds(ids);
                     importOrderMapper.updateCargoListBByCarGoIds(ids);*/
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                    log.error("请求异常",e);
                 }
-            }catch(Exception e){
-                e.printStackTrace();
-                log.error("请求异常",e);
             }
         }
         log.info("导入订单结束");
@@ -157,32 +164,37 @@ public class ImportOrderService {
         return result;
     }
 
-    private OrderImportRequestEntity dataLoad(List<CargoListEntity> entitys) {
+    private OrderImportRequestEntity dataLoad(List<String> billCodeList,List<CargoListEntity> entitys) {
         int i = 0;
-        int totalVolume = 0;
-        int totalWeight = 0;
+
         OrderImportRequestEntity orderImportRequestEntity = new OrderImportRequestEntity();
 
         List<orderInfoEntity> orderInfoList = new ArrayList<orderInfoEntity>();
 
-        customFieldEntity customFields =  new customFieldEntity();
-        shipFromEntity shipFrom = new shipFromEntity();
-        contactEntity shipFromContactEntity = new contactEntity();
-
-        shipToEntity shipTo = new shipToEntity();
-        contactEntity shipToContactEntity = new contactEntity();
-        //List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
-        timeScheduleEntity timeSchedule = new timeScheduleEntity();
-        cargoDetailsEntity cargoDetails = new cargoDetailsEntity();
-        transportModeEntity transportMode = new transportModeEntity();
-
-        HashSet<String> billCodeList;
         orderImportRequestEntity.setLogin(ConstantInfoUtil.getUser());
         orderImportRequestEntity.setPassword(ConstantInfoUtil.getPassWord());
         orderImportRequestEntity.setVersion(ConstantInfoUtil.getVersion());
 
-        billCodeList = getBillCodeList(entitys);
+        //HashSet<String> billCodeList = getBillCodeList(entitys);
+        //重量保留3位，体积保留六位
+        DecimalFormat weightForm  =   new  DecimalFormat(ConstantInfoUtil.getWeightFormat());
+        DecimalFormat volumForm  =   new  DecimalFormat(ConstantInfoUtil.getVolumeFormat());
         for(String billCode : billCodeList){
+            float totalVolume = 0;
+            float totalWeight = 0;
+            int totalQuantity=0;
+
+            customFieldEntity customFields =  new customFieldEntity();
+            shipFromEntity shipFrom = new shipFromEntity();
+            contactEntity shipFromContactEntity = new contactEntity();
+
+            shipToEntity shipTo = new shipToEntity();
+            contactEntity shipToContactEntity = new contactEntity();
+            //List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
+            timeScheduleEntity timeSchedule = new timeScheduleEntity();
+            cargoDetailsEntity cargoDetails = new cargoDetailsEntity();
+            transportModeEntity transportMode = new transportModeEntity();
+
             CargoListEntity entity = new CargoListEntity();
             List<CargoListEntity> entityBList = new ArrayList<CargoListEntity>();
             List<orderLineEntity> orderLines = new ArrayList<orderLineEntity>();
@@ -190,13 +202,13 @@ public class ImportOrderService {
             entity = getOneCargoListEntityByBillCode(entitys,billCode);
             entityBList = getCargoListBByBillCode(entitys,billCode);
 
-            int totalQuantity=0;
-            totalVolume = 0;
-            totalWeight = 0;
+
             for(CargoListEntity entityB : entityBList){
-                totalQuantity+=entityB.getQuantity();
-                totalVolume += entityB.getVolume();
-                totalWeight += entityB.getUnitWeight();
+                totalQuantity += entityB.getQuantity();
+                //totalVolume += entityB.getVolume();
+                //totalWeight += entityB.getUnitWeight();
+                totalVolume += entityB.getSumVolume();
+                totalWeight += entityB.getSumWeight();
                 orderLineEntity orderLine = new orderLineEntity();
                 cargoDescriptionEntity cargoDescription = new cargoDescriptionEntity();
                 cargoDescription.setProductCode(entityB.getProductCode());
@@ -204,9 +216,12 @@ public class ImportOrderService {
                 //cargoDescription.setUnitHeight();
                 //cargoDescription.setUnitLength();
                 cargoDescription.setUnitType(entityB.getUnitType());
-                //cargoDescription.setUnitWeight();
+                cargoDescription.setUnitWeight(weightForm.format(entityB.getUnitWeight()));
                 //cargoDescription.setUnitWidth();
                 orderLine.setQuantity(entityB.getQuantity() + "");
+                orderLine.setVolume(volumForm.format(entityB.getSumVolume()));
+                orderLine.setWeight(weightForm.format(entityB.getSumWeight()));
+                orderLine.setRemarks(entityB.getCustomText18());
                 orderLine.setCargoDescription(cargoDescription);
 
                 orderLines.add(orderLine);
@@ -253,10 +268,13 @@ public class ImportOrderService {
 
             cargoDetails.setCargoType("1");
             cargoDetails.setPackageType("A");
-            cargoDetails.setTotalVolume(totalVolume + "");
-            cargoDetails.setTotalWeight(totalWeight + "");
+
+            //体积保存六位
+            //cargoDetails.setTotalVolume(volumForm.format(totalVolume));
+            //重量保存三位
+            //cargoDetails.setTotalWeight(weightForm.format(totalWeight));
             //添加总数
-            cargoDetails.setTotalQuantity(totalQuantity+"");
+            //cargoDetails.setTotalQuantity(totalQuantity+"");
 
             customFields.setCustomText1(entity.getCustomText1());
             customFields.setCustomText2(entity.getCustomText2());
@@ -271,6 +289,26 @@ public class ImportOrderService {
             customFields.setCustomText16(entity.getCustomText16());
             customFields.setCustomText17(entity.getCustomText17());
             customFields.setCustomText18(entity.getCustomText18());
+
+//                  A. "MATERIAL_TYPE" customText10 -- 物料类型(0成品、1配方颗粒)
+//                   ,A."TAXPAYER_CODE" customText11 -- 纳税人识别编码
+//                   ,A."CHANNEL_CODE" customText12 -- 渠道编码
+//                   ,A."CHANNEL_NAME" customText13 – 渠道名称
+//                   ,A."BRANCH_OFFICE" customText14 -- 办事处
+//                   ,A."WAREHOUSE" customText19 – 库房
+//                   ,A."RESERVED1" customText20 -- （预留1）
+//                   ,A."RESERVED2" customText21 -- （预留2）
+//                   ,A."RESERVED3" customText22 -- （预留3）
+            customFields.setCustomText10(entity.getCustomText10());
+            customFields.setCustomText11(entity.getCustomText11());
+            customFields.setCustomText12(entity.getCustomText12());
+            customFields.setCustomText13(entity.getCustomText13());
+            customFields.setCustomText14(entity.getCustomText14());
+            customFields.setCustomText19(entity.getCustomText19());
+            customFields.setCustomText20(entity.getCustomText20());
+            customFields.setCustomText21(entity.getCustomText21());
+            customFields.setCustomText22(entity.getCustomText22());
+
 
             transportMode.setTransportType("LTL");
             transportMode.setTruckType("2");
