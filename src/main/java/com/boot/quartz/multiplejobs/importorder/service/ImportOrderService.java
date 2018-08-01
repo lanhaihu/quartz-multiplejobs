@@ -216,7 +216,7 @@ public class ImportOrderService {
                 //cargoDescription.setUnitHeight();
                 //cargoDescription.setUnitLength();
                 cargoDescription.setUnitType(entityB.getUnitType());
-                cargoDescription.setUnitWeight(entityB.getUnitWeight() + "");
+                cargoDescription.setUnitWeight(weightForm.format(entityB.getUnitWeight()));
                 //cargoDescription.setUnitWidth();
                 orderLine.setQuantity(entityB.getQuantity() + "");
                 orderLine.setVolume(volumForm.format(entityB.getSumVolume()));
