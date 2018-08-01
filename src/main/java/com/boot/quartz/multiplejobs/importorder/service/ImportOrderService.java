@@ -205,8 +205,10 @@ public class ImportOrderService {
 
             for(CargoListEntity entityB : entityBList){
                 totalQuantity += entityB.getQuantity();
-                totalVolume += entityB.getVolume();
-                totalWeight += entityB.getUnitWeight();
+                //totalVolume += entityB.getVolume();
+                //totalWeight += entityB.getUnitWeight();
+                totalVolume += entityB.getSumVolume();
+                totalWeight += entityB.getSumWeight();
                 orderLineEntity orderLine = new orderLineEntity();
                 cargoDescriptionEntity cargoDescription = new cargoDescriptionEntity();
                 cargoDescription.setProductCode(entityB.getProductCode());
@@ -214,9 +216,12 @@ public class ImportOrderService {
                 //cargoDescription.setUnitHeight();
                 //cargoDescription.setUnitLength();
                 cargoDescription.setUnitType(entityB.getUnitType());
-                //cargoDescription.setUnitWeight();
+                cargoDescription.setUnitWeight(entityB.getUnitWeight() + "");
                 //cargoDescription.setUnitWidth();
                 orderLine.setQuantity(entityB.getQuantity() + "");
+                orderLine.setVolume(volumForm.format(entityB.getSumVolume()));
+                orderLine.setWeight(weightForm.format(entityB.getSumWeight()));
+                orderLine.setRemarks(entityB.getCustomText18());
                 orderLine.setCargoDescription(cargoDescription);
 
                 orderLines.add(orderLine);
@@ -265,11 +270,11 @@ public class ImportOrderService {
             cargoDetails.setPackageType("A");
 
             //体积保存六位
-            cargoDetails.setTotalVolume(volumForm.format(totalVolume));
+            //cargoDetails.setTotalVolume(volumForm.format(totalVolume));
             //重量保存三位
-            cargoDetails.setTotalWeight(weightForm.format(totalWeight));
+            //cargoDetails.setTotalWeight(weightForm.format(totalWeight));
             //添加总数
-            cargoDetails.setTotalQuantity(totalQuantity+"");
+            //cargoDetails.setTotalQuantity(totalQuantity+"");
 
             customFields.setCustomText1(entity.getCustomText1());
             customFields.setCustomText2(entity.getCustomText2());

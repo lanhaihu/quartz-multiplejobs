@@ -43,6 +43,8 @@
         <result property="unitType" column="unitType"/>
         <result property="volume" column="volume"/>
         <result property="unitWeight" column="unitWeight"/>
+        <result property="sumVolume" column="sumVolume"/>
+        <result property="sumWeight" column="sumWeight"/>
         <result property="quantity" column="quantity"/>
         <result property="customText1" column="customText1"/>
         <result property="customText2" column="customText2"/>
@@ -111,6 +113,8 @@
       ,B.UNIT unitType -- 计量单位
       ,B.VOLUME -- 体积
       ,B.WEIGHT unitWeight -- 单品重量
+      ,B.sumvolume sumVolume --
+      ,B.sumweight sumWeight --
       ,B.QUANTITY quantity -- 数量
       ,A.SALE_BILLCODE customText1 -- 销售单号
       ,A.ORDERTIME customText2 -- 过账时限
@@ -193,6 +197,8 @@
         ,B.UNIT unitType -- 计量单位
         ,B.VOLUME -- 体积
         ,B.WEIGHT unitWeight -- 单品重量
+        ,B.sumvolume sumVolume --
+        ,B.sumweight sumWeight --
         ,B.QUANTITY quantity -- 数量
         ,A.SALE_BILLCODE customText1 -- 销售单号
       ,A.ORDERTIME customText2 -- 过账时限

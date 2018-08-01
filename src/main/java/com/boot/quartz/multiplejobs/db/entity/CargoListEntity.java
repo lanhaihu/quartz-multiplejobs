@@ -45,6 +45,8 @@ public class CargoListEntity extends BaseEntity {
     float volume; // 体积
     float unitWeight; // 单品重量
     int quantity; // 数量
+    float sumVolume;
+    float sumWeight;
 
     String customText1; // 销售单号
     Date customText2; //过账时限
@@ -558,5 +560,21 @@ public class CargoListEntity extends BaseEntity {
 
     public void setCustomText22(String customText22) {
         this.customText22 = customText22;
+    }
+
+    public float getSumVolume() {
+        return sumVolume;
+    }
+
+    public void setSumVolume(float sumVolume) {
+        this.sumVolume = sumVolume;
+    }
+
+    public float getSumWeight() {
+        return sumWeight;
+    }
+
+    public void setSumWeight(float sumWeight) {
+        this.sumWeight = sumWeight;
     }
 }
